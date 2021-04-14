@@ -10,6 +10,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#include "HalInternal.h"
+
 
 /******************************************************************************
  *                                                                            *
@@ -21,11 +23,7 @@
  *  @{
  */
 
- #ifdef F_CPU
- #undef F_CPU
- #endif
-
-#define F_CPU          16000000UL ///< Clock frequency of the processor
+ 
 
 #define BAUD_PRESCALLER ((F_CPU/16/BAUDRATE) - 1)
 

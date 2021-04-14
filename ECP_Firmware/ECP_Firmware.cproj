@@ -123,6 +123,9 @@
     <Compile Include="source\hal\ATmega2560\DIO.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="source\hal\ATmega2560\HalInternal.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="source\hal\ATmega2560\SerialPort.c">
       <SubType>compile</SubType>
     </Compile>
