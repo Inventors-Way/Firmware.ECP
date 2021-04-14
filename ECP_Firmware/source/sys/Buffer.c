@@ -28,7 +28,6 @@
 
 uint8_t Buffer_Create(Buffer* const self, const uint32_t size, const uint32_t elementSize)
 {
-    uint8_t retval = 1;
     self->size = size;
     self->elementSize = elementSize;
     self->start = 0U;
@@ -36,11 +35,7 @@ uint8_t Buffer_Create(Buffer* const self, const uint32_t size, const uint32_t el
     self->count = 0U;
     self->data = malloc(size*elementSize);
 
-    if (self->data == NULL)
-    {
-        retval = 0U;
-    }
-    return retval;
+    return self->data != NULL;
 }
 
 void Buffer_Initialize(Buffer* const self)
