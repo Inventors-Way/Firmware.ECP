@@ -34,7 +34,7 @@ Buffer rxBuffer;
  *                                                                            *
  ******************************************************************************/
  
-void Serial_Initialize(void)
+void SerialPort_Initialize(void)
 {
    Buffer_Create(&rxBuffer, RX_BUFFER_SIZE, sizeof(uint8_t));
    Buffer_Initialize(&rxBuffer);
@@ -57,12 +57,12 @@ void SerialPort_Write(const uint8_t data)
    while((UCSR0A &(1<<UDRE0)) == 0);
 }
 
-uint8_t Serial_IsPending(void)
+uint8_t SerialPort_IsPending(void)
 {
    return rxBuffer.count > 0;
 }
 
-uint8_t Serial_Read(void)
+uint8_t SerialPort_Read(void)
 {
    uint8_t retValue = 0;
    

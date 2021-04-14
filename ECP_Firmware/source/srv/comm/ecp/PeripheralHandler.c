@@ -8,6 +8,7 @@
  #include <sys/SystemConfig.h>
  #include <srv/comm/ecp/PeripheralHandler.h>
  #include "Packet.h"
+ #include <string.h>
 
 /******************************************************************************
 *                                                                            *
@@ -58,15 +59,15 @@ void PeripheralHandler_Run(void)
       switch (self->mRequest.code)
       {
          case DEVICE_IDENTIFICATION:
-         PeripheralHandler_DeviceIdentification(self);
-         break;
+            PeripheralHandler_DeviceIdentification(self);
+            break;
          case PING:
-         PeripheralHandler_Ping(self);
-         break;
+            PeripheralHandler_Ping(self);
+            break;
 
          default:
-         Packet_SendNotAcknowledge(&self->mRequest, UNKNOWN_FUNCTION_ERR);
-         break;
+            Packet_SendNotAcknowledge(&self->mRequest, UNKNOWN_FUNCTION_ERR);
+            break;
       }
       
       Packet_Initialize(&self->mRequest);
@@ -100,7 +101,7 @@ void PeripheralHandler_Printf(char* str)
  {
     uint8_t retValue = 0;
 
-    while (Serial_IsPending() && !retValue)
+    while (SerialPort_IsPending() && !retValue)
     {
        retValue = Packet_Add(&self->mRequest, SerialPort_Read());
     }
