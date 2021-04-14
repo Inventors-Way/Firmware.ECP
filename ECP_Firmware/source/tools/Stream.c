@@ -98,18 +98,18 @@
 
  uint32_t Stream_GetUint32(const uint8_t * const self, uint32_t pos)
  {
-    return ((uint16_t) self[pos]) +
-    (((uint16_t) self[pos+1]) << 8) +
-    (((uint16_t) self[pos+2]) << 16) +
-    (((uint16_t) self[pos+3]) << 24);
+    return ((uint32_t) self[pos]) +
+    (((uint32_t) self[pos+1]) << 8) +
+    (((uint32_t) self[pos+2]) << 16) +
+    (((uint32_t) self[pos+3]) << 24);
  }
 
  int32_t  Stream_GetInt32(const uint8_t * const self, uint32_t pos)
  {
     uint32_t tmp = ((uint16_t) self[pos]) +
-    (((uint16_t) self[pos+1]) << 8) +
-    (((uint16_t) self[pos+2]) << 16) +
-    (((uint16_t) self[pos+3]) << 24);
+    (((uint32_t) self[pos+1]) << 8) +
+    (((uint32_t) self[pos+2]) << 16) +
+    (((uint32_t) self[pos+3]) << 24);
 
     return *((int32_t *) &tmp);
  }
