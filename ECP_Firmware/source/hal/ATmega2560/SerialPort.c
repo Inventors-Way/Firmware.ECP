@@ -69,7 +69,8 @@ uint8_t SerialPort_Read(void)
    UCSR0B = (0<<RXCIE0) | (1<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
    if (rxBuffer.count > 0)
    {
-      retValue = *((uint8_t *) Buffer_Read(&rxBuffer));
+      const uint8_t * const data = (uint8_t *) Buffer_Read(&rxBuffer);
+      retValue = *data;
    }
    UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
    
@@ -86,7 +87,7 @@ ISR(USART0_RX_vect)
 {
    if (!Buffer_IsFull(&rxBuffer))
    {   
-      uint8_t* byte = Buffer_Write(&rxBuffer);
+      uint8_t * const byte = Buffer_Write(&rxBuffer);
       *byte = UDR0;
    }
 }
