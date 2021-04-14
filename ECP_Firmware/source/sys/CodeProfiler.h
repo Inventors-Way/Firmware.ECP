@@ -17,19 +17,37 @@
  *  @{
  */
 
-void CodeProfiler_Create(void);	
+typedef struct
+{
+   uint32_t count;
+   uint32_t maxCount;
+   uint32_t timeLimit;
+   
+   uint32_t time;
+   uint32_t max;
+   uint32_t min;
+   
+   Stopwatch watch;
+} CodeProfiler;
+
+void CodeProfiler_Initialize(CodeProfiler * self);
 	
-void CodeProfiler_Initialize(void);
+inline void CodeProfiler_Reset(CodeProfiler * self)
+{
+   self->count = 0;
+   self->time = 0;
+   self->max = 0;
+   self->min = UINT32_MAX;
+}
 
-void CodeProfiler_Suspend(void);
+inline void CodeProfiler_Tic(CodeProfiler * self, const enum DebugSignal signal)
+{
+   Stopwatch_Tic(&self->watch);
+}
 
-void CodeProfiler_Reset(void);
+void CodeProfiler_Toc(CodeProfiler * self, const enum DebugSignal signal);
 
-void CodeProfiler_Tic(const enum DebugSignal signal);
-
-void CodeProfiler_Toc(const enum DebugSignal signal);
-
-void CodeProfiler_SetContext(const enum DebugSignal signal, const uint32_t context);
+void CodeProfiler_SendProfilerMessage(CodeProfiler * self, const enum DebugSignal signal);
 
 /** @}*/
 

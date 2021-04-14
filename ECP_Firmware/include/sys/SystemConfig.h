@@ -9,7 +9,12 @@
 #ifndef SYSTEMCONFIG_H_
 #define SYSTEMCONFIG_H_
 
-// SERIAL PORT CONFIGURATION
+/*****************************************************************************
+ *                                                                           *
+ *                         Serial Port Configuration                         *
+ *                                                                           *
+ *****************************************************************************/
+
 #define BAUDRATE        38400
 #define RX_BUFFER_SIZE  256
 
@@ -32,7 +37,7 @@
 #define TIMER_RUN_TIME_MSG       0xB1
 #define PRINTF_MSG               0xFF
 
-// ERROR CODES
+// ERROR CODES 
 #define UNKNOWN_FUNCTION_ERR     0x01
 
 /*****************************************************************************
@@ -49,5 +54,7 @@
 #define DEVICE_NAME                    "ECP Firmware"
 #define MANUFACTORER_NAME              "Acme Coorporation"
 
+#define NUMBER_OF_DEBUG_SIGNALS        2
+#define MAX_STRING_LENGTH              128
 
 #endif /* SYSTEMCONFIG_H_ */

@@ -4,7 +4,11 @@
 * Created: 14-04-2021 13:06:11
 *  Author: KristianHennings
 */
+#include <stdio.h>
+#include <stdarg.h>
 #include <sys/System.h>
+#include <sys/DebugSignal.h>
+#include <sys/SystemConfig.h>
 #include <hal/DIO.h>
 #include <srv/comm/ecp/PeripheralHandler.h>
 
@@ -18,6 +22,13 @@
 * @addtogroup PSystem
 * @{
 */
+
+typedef struct {
+   enum DebugSignal activeDebugSignals[NUMBER_OF_DEBUG_SIGNALS];
+
+} System;
+
+System sys;
 
 /** @} */
 
@@ -57,7 +68,7 @@ void System_HandleFatalError(void)
       DIO_SetPin(PIN_LED_DEBUG, 0);
       DIO_SetPin(PIN_LED_DEBUG, 0);
 
-      // O (Morese Code)
+      // O (Morse Code)
       DIO_SetPin(PIN_LED_DEBUG, 1);
       DIO_SetPin(PIN_LED_DEBUG, 1);
       DIO_SetPin(PIN_LED_DEBUG, 0);
@@ -106,25 +117,24 @@ void System_HandleFatalError(void)
    }
 }
 
-/**
-* @brief
-*
-* @param id
-* @param format
-* @param ...
-*/
+
 void System_Printf(const char* format, ...)
 {
+   static char str[MAX_STRING_LENGTH];
 
+   for (uint8_t n = 0; n < MAX_STRING_LENGTH; ++n)
+   {
+      str[n] = 0;
+   }
+
+	va_list arguments;
+	va_start(arguments, format);
+	vsnprintf(str, MAX_STRING_LENGTH, format, arguments);
+	va_end(arguments);
+	    
+   PeripheralHandler_Printf(str);
 }
 
-/**
-* @brief
-*
-* @param code
-* @param length
-* @param data
-*/
 void System_TransmitMessage(const uint8_t code,
                             const uint8_t length,
                             const uint8_t * const data)
@@ -134,7 +144,6 @@ void System_TransmitMessage(const uint8_t code,
 
 void System_SetActiveDebugSignal(const enum DebugSignal* signal)
 {
-
 }
 
 void System_DebugOut(const enum DebugSignal signal, const uint8_t value)
