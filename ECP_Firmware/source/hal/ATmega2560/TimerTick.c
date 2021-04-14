@@ -45,7 +45,7 @@
    return currentTimerTicks;
  }
 
- void Timer_Run(void)
+ void TimerTick_Run(void)
  {
     const uint8_t ticks = timerTicks;
 

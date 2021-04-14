@@ -15,4 +15,7 @@
 
 #define F_CPU          16000000UL ///< Clock frequency of the processor
 
+void TimerTick_Run(void);
+
+
 #endif /* HALINTERNAL_H_ */
