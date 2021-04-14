@@ -1,18 +1,22 @@
 /*
- * ECP_Firmware.c
- *
- * Created: 14-04-2021 12:31:48
- * Author : KristianHennings
- */ 
+* ECP_Firmware.c
+*
+* Created: 14-04-2021 12:31:48
+* Author : KristianHennings
+*/
 
-#include <avr/io.h>
-
+#include <hal/HAL.h>
+#include <sys/System.h>
 
 int main(void)
 {
-    /* Replace with your application code */
-    while (1) 
-    {
-    }
+   HAL_Initialize();
+   System_Initialize();
+
+   while (1)
+   {
+      HAL_Run();
+      System_Run();
+   }
 }
 

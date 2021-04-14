@@ -108,7 +108,10 @@
     <Compile Include="include\sys\Buffer.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="include\sys\CodeProfiler.h">
+    <Compile Include="include\sys\DebugSignal.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\sys\Stopwatch.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="include\sys\System.h">
@@ -118,6 +121,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="include\sys\Timer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\tools\Stream.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\hal\ATmega2560\DIO.c">
@@ -138,6 +144,12 @@
     <Compile Include="source\hal\ATmega2560\TimerTick.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="source\srv\comm\ecp\Packet.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\srv\comm\ecp\Packet.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="source\srv\comm\ecp\PeripheralHandler.c">
       <SubType>compile</SubType>
     </Compile>
@@ -147,16 +159,26 @@
     <Compile Include="source\sys\CodeProfiler.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="source\sys\CodeProfiler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\sys\Stopwatch.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="source\sys\System.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\sys\Timer.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="source\tools\Stream.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="include" />
     <Folder Include="include\hal" />
+    <Folder Include="include\tools" />
     <Folder Include="include\srv" />
     <Folder Include="include\srv\comm" />
     <Folder Include="include\srv\comm\ecp" />
@@ -164,6 +186,7 @@
     <Folder Include="source" />
     <Folder Include="source\hal" />
     <Folder Include="source\hal\ATmega2560" />
+    <Folder Include="source\tools" />
     <Folder Include="source\srv" />
     <Folder Include="source\srv\comm" />
     <Folder Include="source\srv\comm\ecp" />
