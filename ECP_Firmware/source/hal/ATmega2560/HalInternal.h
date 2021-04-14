@@ -15,7 +15,16 @@
 
 #define F_CPU          16000000UL ///< Clock frequency of the processor
 
+/**
+ * \brief Initializes the serial port
+ *
+ */
+void SerialPort_Initialize(void);
+
+void TimerTick_Initialize(void);
 void TimerTick_Run(void);
+
+void DIO_Initialize(void);
 
 
 #endif /* HALINTERNAL_H_ */

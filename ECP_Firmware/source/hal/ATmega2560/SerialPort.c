@@ -12,7 +12,6 @@
 
 #include "HalInternal.h"
 
-
 /******************************************************************************
  *                                                                            *
  *                       Private Function Declaration                         *

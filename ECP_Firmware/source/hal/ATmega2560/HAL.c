@@ -13,7 +13,9 @@
 
 void HAL_Initialize(void)
 {
-
+   DIO_Initialize();
+   TimerTick_Initialize();
+   SerialPort_Initialize();
 }
 
 void HAL_Run(void)

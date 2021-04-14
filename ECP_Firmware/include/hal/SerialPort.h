@@ -14,12 +14,6 @@
  */
 
 /**
- * \brief Initializes the serial port
- *
- */
-void SerialPort_Initialize(void);
-
-/**
  * \brief Write a sequence of bytes to the serial port
  *
  * \param data the data to send over the serial communication line
