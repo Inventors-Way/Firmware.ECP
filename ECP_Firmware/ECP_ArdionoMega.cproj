@@ -13,7 +13,7 @@
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
     <AssemblyName>ECP_Firmware</AssemblyName>
-    <Name>ECP_Firmware</Name>
+    <Name>ECP_ArdionoMega</Name>
     <RootNamespace>ECP_Firmware</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
