@@ -42,6 +42,8 @@ void DIO_SetPin(const enum Pin pin, const uint8_t value);
  */
 uint8_t DIO_GetPin(const enum Pin pin);
 
+enum Pin DIO_GetDebugPin(const uint8_t number);
+
 /** @}*/
 
 

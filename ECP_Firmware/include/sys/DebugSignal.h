@@ -21,15 +21,20 @@ enum DebugSignal
 {
    DEBUG_SIGNAL_NONE = 0,
 	DEBUG_SIGNAL_POLLING_LOOP,
+   DEBUG_SIGNAL_HAL_RUN,
+   DEBUG_SIGNAL_SYSTEM_RUN,
 	DEBUG_SIGNAL_MESSAGE_LOOP,
 
 	// TIMERS
-	DEBUG_SIGNAL_TIMER_CODE_PROFILER
+	DEBUG_SIGNAL_TIMER_DEBUG_SIGNAL,
+   DEBUG_SIGNAL_TIMER_HEARTBEAT
 };
 
 void DebugSignal_Set(const enum DebugSignal signal);
 
 void DebugSignal_Clear(const enum DebugSignal signal);
+
+void DebugSignal_SetActive(const enum DebugSignal* signal);
 
 /** @} */	
 

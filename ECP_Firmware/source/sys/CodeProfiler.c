@@ -21,17 +21,14 @@
  *                                                                            *
  ******************************************************************************/
 
-#define POLLING_TIME_MAX_COUNT 2000
 #define POLLING_MAX_TIME       1000
 	
-inline uint8_t CodeProfiler_Update(CodeProfiler * self, const uint32_t time)
+inline void CodeProfiler_Update(CodeProfiler * self, const uint32_t time)
 {
 	++self->count;
 	self->time += time;
 	self->max = time > self->max ? time : self->max;
-	self->min = time < self->min ? time : self->min;
-	
-	return self->count == self->maxCount;
+	self->min = time < self->min ? time : self->min;	
 }
 	
 void CodeProfiler_SendTimingViolation(CodeProfiler * self, const enum DebugSignal signal, const uint32_t time);
@@ -44,7 +41,6 @@ void CodeProfiler_SendTimingViolation(CodeProfiler * self, const enum DebugSigna
 
 void CodeProfiler_Initialize(CodeProfiler * self)
 {
-	self->maxCount = POLLING_TIME_MAX_COUNT;
 	self->timeLimit = POLLING_MAX_TIME;
 	CodeProfiler_Reset(self);
 }

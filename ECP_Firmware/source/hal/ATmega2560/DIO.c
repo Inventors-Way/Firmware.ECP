@@ -28,22 +28,6 @@ uint8_t pin_states[PIN_EOL];
 */
 uint8_t DIO_SamplePin(const enum Pin pin);
 
-
-/**
-* \brief [PRIVATE] Set a pin active.
-*
-* \param pin the pin to set active.
-*/
-void DIO_SetPinActive(const enum Pin pin);
-
-
-/**
-* \brief [PRIVATE] Set a pin inactive.
-*
-* \param pin the pin to set inactive.
-*/
-void DIO_SetPinInActive(const enum Pin pin);
-
 /** @}*/
 
 /******************************************************************************
@@ -113,11 +97,35 @@ void DIO_SetPin(const enum Pin pin, const uint8_t value)
 {
    if (value)
    {
-      DIO_SetPinActive(pin);
+      switch (pin)
+      {      
+         case PIN_DEBUG_OUT01:
+            PORTB |= (1 << PB7);
+            pin_states[pin] = 1;
+            break;
+         case PIN_DEBUG_OUT02:
+            PORTB |= (1 << PB6);
+            pin_states[pin] = 1;
+            break;
+         default:
+            break;
+      }
    }
    else
    {
-      DIO_SetPinInActive(pin);
+      switch (pin)
+      {
+         case PIN_DEBUG_OUT01:
+            PORTB &= ~(1 << PB7);
+            pin_states[pin] = 0;
+            break;
+         case PIN_DEBUG_OUT02:
+            PORTB &= ~(1 << PB6);
+            pin_states[pin] = 0;
+            break;
+         default:
+            break;
+      }
    }
 }
 
@@ -126,43 +134,25 @@ uint8_t DIO_GetPin(const enum Pin pin)
    return pin_states[pin];
 }
 
+enum Pin DIO_GetDebugPin(const uint8_t number)
+{
+   enum Pin pin = PIN_DEBUG_OUT01;
+
+   switch (number)
+   {
+      case 0: pin = PIN_DEBUG_OUT01; break;
+      case 1: pin = PIN_DEBUG_OUT02; break;
+
+      default:
+         break;
+   }
+
+   return pin;
+}
+
+
 /******************************************************************************
 *                                                                            *
 *                       Private Function Implementation                      *
 *                                                                            *
 ******************************************************************************/
-
-
-void DIO_SetPinActive(const enum Pin pin)
-{
-   switch (pin)
-   {
-      case PIN_DEBUG_OUT01:
-         PORTB |= (1 << PB7);
-         pin_states[pin] = 1;
-         break;
-      case PIN_DEBUG_OUT02:
-         PORTB |= (1 << PB6);
-         pin_states[pin] = 1;
-         break;
-      default:
-         break;
-   }
-}
-
-void DIO_SetPinInActive(const enum Pin pin)
-{
-   switch (pin)
-   {
-      case PIN_DEBUG_OUT01:
-         PORTB &= ~(1 << PB7);
-         pin_states[pin] = 0;
-         break;
-      case PIN_DEBUG_OUT02:
-         PORTB &= ~(1 << PB6);
-         pin_states[pin] = 0;
-         break;
-      default:
-         break;
-   }
-}

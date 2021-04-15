@@ -8,6 +8,7 @@
 #include <hal/TimerTick.h>
 #include <sys/Timer.h>
 #include <sys/System.h>
+#include <sys/DebugSignal.h>
 #include <sys/MemoryPool.h>
 
 /******************************************************************************
@@ -100,13 +101,13 @@ void Timer_Run(void)
       if (Timer_Check(iterator->timer))
       {
          #ifdef DEBUG
-         System_DebugOut(iterator->signal, 1);
+         DebugSignal_Set(iterator->signal);
          #endif
 
          iterator->timer->func(iterator->timer->owner);
 
          #ifdef DEBUG
-         System_DebugOut(iterator->signal, 0);
+         DebugSignal_Clear(iterator->signal);
          #endif
       }
       

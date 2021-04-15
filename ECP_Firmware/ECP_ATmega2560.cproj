@@ -184,6 +184,9 @@
     <Compile Include="source\sys\MemoryPool.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="source\sys\PDebugSignal.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="source\sys\Stopwatch.c">
       <SubType>compile</SubType>
     </Compile>

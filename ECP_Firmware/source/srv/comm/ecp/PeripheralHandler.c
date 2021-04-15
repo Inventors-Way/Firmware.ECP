@@ -7,6 +7,7 @@
  #include <hal/SerialPort.h>
  #include <sys/SystemConfig.h>
  #include <sys/System.h>
+ #include <sys/DebugSignal.h>
  #include <srv/comm/ecp/PeripheralHandler.h>
  #include "Packet.h"
  #include <string.h>
@@ -178,7 +179,7 @@ void PeripheralHandler_SetDebugSignals(PeripheralHandler* self)
       return;
    }
 
-   System_SetActiveDebugSignal((enum DebugSignal *) self->mRequest.data);
+   DebugSignal_SetActive((enum DebugSignal *) self->mRequest.data);
 
    Packet_Acknowledge(&self->mRequest);
 }

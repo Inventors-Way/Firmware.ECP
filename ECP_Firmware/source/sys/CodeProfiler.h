@@ -20,7 +20,6 @@
 typedef struct
 {
    uint32_t count;
-   uint32_t maxCount;
    uint32_t timeLimit;
    
    uint32_t time;
@@ -40,7 +39,7 @@ inline void CodeProfiler_Reset(CodeProfiler * self)
    self->min = UINT32_MAX;
 }
 
-inline void CodeProfiler_Tic(CodeProfiler * self, const enum DebugSignal signal)
+inline void CodeProfiler_Tic(CodeProfiler * self)
 {
    Stopwatch_Tic(&self->watch);
 }

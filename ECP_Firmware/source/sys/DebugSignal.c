@@ -5,7 +5,10 @@
  *  Author: KristianHennings
  */ 
 #include <sys/DebugSignal.h>
-
+#include <sys/Timer.h>
+#include <hal/DIO.h>
+#include "PDebugSignal.h"
+#include "CodeProfiler.h"
 
  /******************************************************************************
 *                                                                            *
@@ -18,6 +21,17 @@
  * @{
  */
 
+typedef struct {
+   enum DebugSignal signal;
+   enum Pin pin;
+   CodeProfiler profiler;
+} TDebugSignal;
+
+TDebugSignal signals[NUMBER_OF_DEBUG_SIGNALS];
+struct Timer* debugTimer;
+
+uint8_t DebugSignal_GetIndex(const enum DebugSignal signal);
+
 /** @} */
 
 /******************************************************************************
@@ -26,6 +40,41 @@
 *                                                                            *
 ******************************************************************************/
 
+void DebugSignal_SetActive(const enum DebugSignal* signal)
+{
+   for (uint8_t n = 0; n < NUMBER_OF_DEBUG_SIGNALS; ++n)
+   {
+      TDebugSignal* self = &signals[n];
+
+      self->signal = signal[n];
+      CodeProfiler_Reset(&self->profiler);
+      DIO_SetPin(self->pin, 0);
+   }
+}
+
+void DebugSignal_Set(const enum DebugSignal signal)
+{
+   const uint8_t index = DebugSignal_GetIndex(signal);
+
+   if (index < UINT8_MAX)
+   {
+      TDebugSignal* self = &signals[index];
+      DIO_SetPin(self->pin, 1);
+      CodeProfiler_Tic(&self->profiler);
+   }
+}
+
+void DebugSignal_Clear(const enum DebugSignal signal)
+{
+   const uint8_t index = DebugSignal_GetIndex(signal);
+
+   if (index < UINT8_MAX)
+   {
+      TDebugSignal* self= &signals[index];
+      DIO_SetPin(self->pin, 0);
+      CodeProfiler_Toc(&self->profiler, signal);
+   }
+}
 
 /******************************************************************************
  *                                                                            *
@@ -33,3 +82,29 @@
  *                                                                            *
  ******************************************************************************/
 
+void DebugSignal_Initialize(void)
+{
+   for (uint8_t n = 0; n < NUMBER_OF_DEBUG_SIGNALS; ++n)
+   {
+      signals[n].signal = DEBUG_SIGNAL_NONE;
+      signals[n].pin = DIO_GetDebugPin(n);
+      CodeProfiler_Reset(&signals[n].profiler);
+      DIO_SetPin(signals[n].pin, 0);
+   }
+}
+
+uint8_t DebugSignal_GetIndex(const enum DebugSignal signal)
+{
+   uint8_t retValue = UINT8_MAX;
+
+   for (uint8_t n = 0; n < NUMBER_OF_DEBUG_SIGNALS; ++n)
+   {
+      if (signals[n].signal == signal)
+      {
+         retValue = n;
+         break;
+      }
+   }
+
+   return retValue;
+};

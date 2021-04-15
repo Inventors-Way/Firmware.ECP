@@ -6,10 +6,12 @@
 */
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #include <sys/System.h>
 #include <sys/DebugSignal.h>
 #include <sys/Stopwatch.h>
 #include <sys/SystemConfig.h>
+#include <sys/Timer.h>
 #include <hal/DIO.h>
 #include <hal/TimerTick.h>
 #include <srv/comm/ecp/PeripheralHandler.h>
@@ -25,12 +27,13 @@
 * @{
 */
 
-typedef struct {
-   enum DebugSignal activeDebugSignals[NUMBER_OF_DEBUG_SIGNALS];
 
-} System;
+void System_OnHeartbeat(void* vself)
+{
+   System_Printf("Beat");
+}
 
-System sys;
+struct Timer* heartbeatTimer;
 
 /** @} */
 
@@ -43,11 +46,33 @@ System sys;
 void System_Initialize(void)
 {
    PeripheralHandler_Initialize();
+   heartbeatTimer = Timer_Create(0, System_OnHeartbeat, DEBUG_SIGNAL_TIMER_HEARTBEAT);
+   Timer_Start(heartbeatTimer, TIMER_PERIODIC, 1000);
 }
 
 void System_Run(void)
 {
    PeripheralHandler_Run();
+}
+
+void System_Printf(const char* format, ...)
+{
+   static char str[MAX_STRING_LENGTH];
+   memset(str, 0, sizeof(str));
+
+	va_list arguments;
+	va_start(arguments, format);
+	vsnprintf(str, MAX_STRING_LENGTH, format, arguments);
+	va_end(arguments);
+	    
+   PeripheralHandler_Printf(str);
+}
+
+void System_TransmitMessage(const uint8_t code,
+                            const uint8_t length,
+                            const uint8_t * const data)
+{
+   PeripheralHandler_TransmitMessage(code, length, data);
 }
 
 void System_HandleFatalError(void)
@@ -120,40 +145,6 @@ void System_HandleFatalError(void)
       DIO_SetPin(PIN_DEBUG_OUT01, 0);
       DIO_SetPin(PIN_DEBUG_OUT01, 0);
    }
-}
-
-
-void System_Printf(const char* format, ...)
-{
-   static char str[MAX_STRING_LENGTH];
-
-   for (uint8_t n = 0; n < MAX_STRING_LENGTH; ++n)
-   {
-      str[n] = 0;
-   }
-
-	va_list arguments;
-	va_start(arguments, format);
-	vsnprintf(str, MAX_STRING_LENGTH, format, arguments);
-	va_end(arguments);
-	    
-   PeripheralHandler_Printf(str);
-}
-
-void System_TransmitMessage(const uint8_t code,
-                            const uint8_t length,
-                            const uint8_t * const data)
-{
-   PeripheralHandler_TransmitMessage(code, length, data);
-}
-
-void System_SetActiveDebugSignal(const enum DebugSignal* signal)
-{
-}
-
-void System_DebugOut(const enum DebugSignal signal, const uint8_t value)
-{
-
 }
 
 /******************************************************************************
