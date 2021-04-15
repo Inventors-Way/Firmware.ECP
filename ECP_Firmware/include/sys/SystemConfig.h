@@ -47,6 +47,7 @@
 
 // ERROR CODES 
 #define UNKNOWN_FUNCTION_ERR     0x01
+#define INVALID_CONTENT_ERR      0x02
 
 /*****************************************************************************
  *                                                                           *

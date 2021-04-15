@@ -113,6 +113,12 @@ void PeripheralHandler_Printf(char* str)
 
 void PeripheralHandler_DeviceIdentification(PeripheralHandler* self)
 {
+   if (self->mRequest.length > 0)
+   {
+      Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+      return;
+   }
+
    Packet_Start(self->mRequest.code, 64);
    Packet_SendUint32(MANUFACTURER_ID);
    Packet_SendUint16(DEVICE_TYPE);        // Device Type
@@ -129,6 +135,12 @@ void PeripheralHandler_DeviceIdentification(PeripheralHandler* self)
 
 void PeripheralHandler_Ping(PeripheralHandler* self)
 {
+   if (self->mRequest.length > 0)
+   {
+      Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+      return;
+   }
+
    Packet_Start(self->mRequest.code, sizeof(uint32_t));
    Packet_SendUint32(self->counter);
    Packet_End();
