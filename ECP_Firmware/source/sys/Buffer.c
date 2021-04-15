@@ -5,7 +5,7 @@
  *  Author: KristianHennings
  */ 
  #include <sys/Buffer.h>
-#include <stdlib.h>
+ #include <sys/MemoryPool.h>
 
 /*****************************************************************************
 *                                                                            *
@@ -33,9 +33,9 @@ uint8_t Buffer_Create(Buffer* const self, const uint32_t size, const uint32_t el
     self->start = 0U;
     self->end = 0U;
     self->count = 0U;
-    self->data = malloc(size*elementSize);
+    self->data = MemoryPool_Allocate(size * elementSize);
 
-    return self->data != NULL;
+    return self->data != 0;
 }
 
 void Buffer_Initialize(Buffer* const self)

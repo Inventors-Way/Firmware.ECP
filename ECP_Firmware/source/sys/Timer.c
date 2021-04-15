@@ -7,7 +7,8 @@
 
 #include <hal/TimerTick.h>
 #include <sys/Timer.h>
-#include <stdlib.h>
+#include <sys/System.h>
+#include <sys/MemoryPool.h>
 
 /******************************************************************************
 *                                                                            *
@@ -87,23 +88,25 @@ void Timer_Add(struct Timer* const self, const enum DebugSignal signal);
 
 void Timer_Initialize(void)
 {
-   timers = NULL;
+   timers = 0;
 }
 
 void Timer_Run(void)
 {
    struct TimerItem* iterator = timers;
 
-   while (iterator != NULL)
+   while (iterator != 0)
    {
       if (Timer_Check(iterator->timer))
       {
          #ifdef DEBUG
-         System_DebugOut(iterator->signal);
+         System_DebugOut(iterator->signal, 1);
          #endif
+
          iterator->timer->func(iterator->timer->owner);
+
          #ifdef DEBUG
-         System_DebugOut(iterator->signal);
+         System_DebugOut(iterator->signal, 0);
          #endif
       }
       
@@ -137,7 +140,7 @@ uint8_t Timer_Check(struct Timer* const self)
 
 struct Timer* Timer_Create(void* owner, void (*func)(void* owner), const enum DebugSignal signal)
 {
-   struct Timer* retValue = (struct Timer*) malloc(sizeof(struct Timer));
+   struct Timer* retValue = (struct Timer*) MemoryPool_Allocate(sizeof(struct Timer));
    retValue->type = TIMER_ONESHOT;
    retValue->period = 0;
    retValue->running = 0;
@@ -170,7 +173,7 @@ uint32_t Timer_GetNumberOfTimers(void)
    uint32_t retValue = 0;
    struct TimerItem* iterator = timers;
 
-   while (iterator != NULL)
+   while (iterator != 0)
    {
       ++retValue;
       iterator = iterator->next;
@@ -193,12 +196,12 @@ uint32_t Timer_GetElapsedTime(const uint32_t time)
 
 void Timer_Add(struct Timer* const self, const enum DebugSignal signal)
 {
-   struct TimerItem* item = (struct TimerItem*) malloc(sizeof(struct TimerItem));
+   struct TimerItem* item = (struct TimerItem*) MemoryPool_Allocate(sizeof(struct TimerItem));
    item->timer = self;
-   item->next = NULL;
+   item->next = 0;
    item->signal = signal;
    
-   if (timers != NULL)
+   if (timers != 0)
    {
       item->next = timers;
       timers = item;
