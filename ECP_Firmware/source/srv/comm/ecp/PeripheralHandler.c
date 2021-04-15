@@ -35,6 +35,8 @@ uint8_t PeripheralHandler_IsRequestAvailable(PeripheralHandler* self);
 
 void PeripheralHandler_DeviceIdentification(PeripheralHandler* self);
 
+void PeripheralHandler_GetEndianness(PeripheralHandler* self);
+
 void PeripheralHandler_Ping(PeripheralHandler* self);
 
 /******************************************************************************
@@ -64,6 +66,9 @@ void PeripheralHandler_Run(void)
             break;
          case PING:
             PeripheralHandler_Ping(self);
+            break;
+         case GET_ENDIANNESS:
+            PeripheralHandler_GetEndianness(self);
             break;
 
          default:
@@ -144,4 +149,17 @@ void PeripheralHandler_Ping(PeripheralHandler* self)
    Packet_Start(self->mRequest.code, sizeof(uint32_t));
    Packet_SendUint32(self->counter);
    Packet_End();
+}
+
+void PeripheralHandler_GetEndianness(PeripheralHandler* self)
+{
+   if (self->mRequest.length > 0)
+   {
+      Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+      return;
+   }
+
+	Packet_Start(self->mRequest.code, sizeof(uint16_t));
+	Packet_SendUint16(1);
+	Packet_End();
 }
