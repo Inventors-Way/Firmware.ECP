@@ -173,13 +173,20 @@ void PeripheralHandler_GetEndianness(PeripheralHandler* self)
 
 void PeripheralHandler_SetDebugSignals(PeripheralHandler* self)
 {
+   enum DebugSignal signals[NUMBER_OF_DEBUG_SIGNALS];
+
    if (self->mRequest.length != NUMBER_OF_DEBUG_SIGNALS * sizeof(uint32_t))
    {
       Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
       return;
    }
 
-   DebugSignal_SetActive((enum DebugSignal *) self->mRequest.data);
+   for (uint8_t n = 0; n < NUMBER_OF_DEBUG_SIGNALS; ++n)
+   {
+      signals[n] = Packet_GetUint32(&self->mRequest, n * sizeof(uint32_t));
+   }
+
+   DebugSignal_SetActive(signals);
 
    Packet_Acknowledge(&self->mRequest);
 }

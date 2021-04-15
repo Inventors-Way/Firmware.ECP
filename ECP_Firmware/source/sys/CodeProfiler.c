@@ -45,7 +45,7 @@ void CodeProfiler_Initialize(CodeProfiler * self)
 	CodeProfiler_Reset(self);
 }
 
-void CodeProfiler_Toc(CodeProfiler * self, const enum DebugSignal signal)
+uint32_t CodeProfiler_Toc(CodeProfiler * self, const enum DebugSignal signal)
 {
 	const uint32_t time = Stopwatch_Toc(&self->watch);
 		
@@ -55,6 +55,8 @@ void CodeProfiler_Toc(CodeProfiler * self, const enum DebugSignal signal)
 	}
 		
 	CodeProfiler_Update(self, time);
+
+   return time;
 }
 
 void CodeProfiler_SendProfilerMessage(CodeProfiler * self, const enum DebugSignal signal)

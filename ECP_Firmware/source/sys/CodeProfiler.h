@@ -44,7 +44,7 @@ inline void CodeProfiler_Tic(CodeProfiler * self)
    Stopwatch_Tic(&self->watch);
 }
 
-void CodeProfiler_Toc(CodeProfiler * self, const enum DebugSignal signal);
+uint32_t CodeProfiler_Toc(CodeProfiler * self, const enum DebugSignal signal);
 
 void CodeProfiler_SendProfilerMessage(CodeProfiler * self, const enum DebugSignal signal);
 

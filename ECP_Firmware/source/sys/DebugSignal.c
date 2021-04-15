@@ -6,6 +6,7 @@
  */ 
 #include <sys/DebugSignal.h>
 #include <sys/Timer.h>
+#include <sys/System.h>
 #include <hal/DIO.h>
 #include "PDebugSignal.h"
 #include "CodeProfiler.h"
@@ -49,6 +50,8 @@ void DebugSignal_SetActive(const enum DebugSignal* signal)
       self->signal = signal[n];
       CodeProfiler_Reset(&self->profiler);
       DIO_SetPin(self->pin, 0);
+
+      System_Printf("DS: %u", self->signal);
    }
 }
 
