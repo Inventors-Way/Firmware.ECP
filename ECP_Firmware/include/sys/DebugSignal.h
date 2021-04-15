@@ -26,7 +26,9 @@ enum DebugSignal
 
 	// TIMERS
 	DEBUG_SIGNAL_TIMER_DEBUG_SIGNAL,
-   DEBUG_SIGNAL_TIMER_HEARTBEAT
+   DEBUG_SIGNAL_TIMER_HEARTBEAT,
+
+   DEBUG_SIGNAL_EOL
 };
 
 void DebugSignal_Set(const enum DebugSignal signal);
