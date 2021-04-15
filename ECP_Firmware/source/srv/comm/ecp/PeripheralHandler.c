@@ -39,6 +39,8 @@ void PeripheralHandler_GetEndianness(PeripheralHandler* self);
 
 void PeripheralHandler_Ping(PeripheralHandler* self);
 
+void PeripheralHandler_SetDebugSignals(PeripheralHandler* self);
+
 /******************************************************************************
 *                                                                            *
 *                       Public Function Implementation                       *
@@ -69,6 +71,9 @@ void PeripheralHandler_Run(void)
             break;
          case GET_ENDIANNESS:
             PeripheralHandler_GetEndianness(self);
+            break;
+         case SET_DEBUG_SIGNAL:
+            PeripheralHandler_SetDebugSignals(self);
             break;
 
          default:
@@ -162,4 +167,10 @@ void PeripheralHandler_GetEndianness(PeripheralHandler* self)
 	Packet_Start(self->mRequest.code, sizeof(uint16_t));
 	Packet_SendUint16(1);
 	Packet_End();
+}
+
+void PeripheralHandler_SetDebugSignals(PeripheralHandler* self)
+{
+
+
 }
