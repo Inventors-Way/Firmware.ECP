@@ -9,6 +9,7 @@
 #include <sys/SystemConfig.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <hal/DIO.h>
 
 #include "HalInternal.h"
 
@@ -54,7 +55,7 @@ void SerialPort_Initialize(void)
 void SerialPort_Write(const uint8_t data)
 {
    UDR0 = data;
-   while((UCSR0A &(1<<UDRE0)) == 0);
+   while((UCSR0A & (1<<UDRE0)) == 0);
 }
 
 uint8_t SerialPort_IsPending(void)
@@ -71,6 +72,7 @@ uint8_t SerialPort_Read(void)
    {
       const uint8_t * const data = (uint8_t *) Buffer_Read(&rxBuffer);
       retValue = *data;
+
    }
    UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
    
@@ -87,8 +89,8 @@ ISR(USART0_RX_vect)
 {
    if (!Buffer_IsFull(&rxBuffer))
    {   
-      uint8_t * const byte = Buffer_Write(&rxBuffer);
-      *byte = UDR0;
+      uint8_t * const data = Buffer_Write(&rxBuffer);
+      *data = UDR0;
    }
 }
 

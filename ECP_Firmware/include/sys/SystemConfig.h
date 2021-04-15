@@ -23,10 +23,10 @@
  *                                                                           *
  *****************************************************************************/
 
-#define BAUDRATE        38400
-#define RX_BUFFER_SIZE  256
+#define BAUDRATE                 38400
+#define RX_BUFFER_SIZE           256
 
-#define MAX_PACKET_SIZE 256
+#define MAX_PACKET_SIZE          256
 
 /*****************************************************************************
  *                                                                           *

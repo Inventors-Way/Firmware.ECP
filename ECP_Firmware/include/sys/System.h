@@ -25,6 +25,8 @@ void System_HandleFatalError(void);
  */
 void System_Printf(const char* format, ...);
 
+void System_Printf_P(const char* format, ...);
+
 /**
  * @brief 
  * 

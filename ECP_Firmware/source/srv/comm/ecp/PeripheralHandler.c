@@ -9,6 +9,7 @@
  #include <srv/comm/ecp/PeripheralHandler.h>
  #include "Packet.h"
  #include <string.h>
+ #include <hal/DIO.h>
 
 /******************************************************************************
 *                                                                            *
@@ -52,6 +53,8 @@ void PeripheralHandler_Run(void)
 {
    PeripheralHandler* self = &peripheralHandler;
 
+   DIO_SetPin(PIN_DEBUG_OUT02, 1);
+
    if (PeripheralHandler_IsRequestAvailable(self))
    {
       ++(self->counter);
@@ -72,6 +75,8 @@ void PeripheralHandler_Run(void)
       
       Packet_Initialize(&self->mRequest);
    }
+
+   DIO_SetPin(PIN_DEBUG_OUT02, 0);
 }
 
 void PeripheralHandler_TransmitMessage(const uint8_t code, const uint8_t length, const uint8_t * const data)
@@ -103,7 +108,8 @@ void PeripheralHandler_Printf(char* str)
 
     while (SerialPort_IsPending() && !retValue)
     {
-       retValue = Packet_Add(&self->mRequest, SerialPort_Read());
+       const uint8_t data = SerialPort_Read();
+       retValue = Packet_Add(&self->mRequest, data);
     }
 
     return retValue;

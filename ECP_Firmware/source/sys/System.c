@@ -45,7 +45,6 @@ void System_Initialize(void)
 
 void System_Run(void)
 {
-   System_HandleFatalError();
    PeripheralHandler_Run();
 }
 
@@ -53,7 +52,7 @@ void System_HandleFatalError(void)
 {
    while (1)
    {
-      // Halt the processor
+      // Halt the processor, and send out SOS
       DIO_SetPin(PIN_DEBUG_OUT02, 1);
       DIO_SetPin(PIN_DEBUG_OUT02, 0);
 
@@ -136,6 +135,17 @@ void System_Printf(const char* format, ...)
 	vsnprintf(str, MAX_STRING_LENGTH, format, arguments);
 	va_end(arguments);
 	    
+   PeripheralHandler_Printf(str);
+}
+
+void System_Printf_P(const char* format, ...)
+{
+   static char str[MAX_STRING_LENGTH];
+   va_list arguments;
+   va_start(arguments, format);
+   vsnprintf_P(str, MAX_PACKET_SIZE, format, arguments);
+   va_end(arguments);
+   
    PeripheralHandler_Printf(str);
 }
 
