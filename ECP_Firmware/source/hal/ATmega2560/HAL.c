@@ -10,6 +10,7 @@
 #include <hal/DIO.h>
 #include <hal/SerialPort.h>
 #include <hal/TimerTick.h>
+#include <sys/DebugSignal.h>
 
 #include "HalInternal.h"
 
@@ -24,5 +25,13 @@ void HAL_Initialize(void)
 
 void HAL_Run(void)
 {
+   #ifdef DEBUG
+   DebugSignal_Set(DEBUG_SIGNAL_HAL_RUN);
+   #endif
+
    TimerTick_Run();
+
+   #ifdef DEBUG
+   DebugSignal_Clear(DEBUG_SIGNAL_HAL_RUN);
+   #endif
 }
