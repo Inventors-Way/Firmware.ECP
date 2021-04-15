@@ -7,6 +7,7 @@
 
  #include <hal/TimerTick.h>
  #include <sys/SystemConfig.h>
+ #include <sys/System.h>
  #include <avr/interrupt.h>
  #include <avr/io.h>
 
@@ -45,14 +46,27 @@
    return currentTimerTicks;
  }
 
+ uint32_t TimerTick_GetMicroTicks(void)
+ {
+   return 0;
+ }
+
+
  void TimerTick_Run(void)
  {
     const uint8_t ticks = timerTicks;
 
     if (ticks > 0)
     {
-       timerTicks = 0;       
-       currentTimerTicks += ticks;
+       if (ticks < UINT8_MAX)
+       {
+          timerTicks = 0;
+          currentTimerTicks += ticks;
+       }
+       else
+       {
+          System_HandleFatalError();
+       }
     }
  }
 
@@ -64,5 +78,6 @@
 
  ISR(TIMER1_COMPA_vect)
  {
-    ++timerTicks;
+   if (timerTicks < UINT8_MAX)
+       ++timerTicks;
  }

@@ -31,7 +31,7 @@
 
 void Stopwatch_Tic(Stopwatch* self)
 {
-    self->timestamp = TimerTick_GetTicks();
+    self->timestamp = TimerTick_GetMicroTicks();
 }
 
 uint32_t Stopwatch_Toc(Stopwatch* self)
