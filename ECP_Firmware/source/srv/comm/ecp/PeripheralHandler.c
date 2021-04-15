@@ -6,6 +6,7 @@
  */ 
  #include <hal/SerialPort.h>
  #include <sys/SystemConfig.h>
+ #include <sys/System.h>
  #include <srv/comm/ecp/PeripheralHandler.h>
  #include "Packet.h"
  #include <string.h>
@@ -171,6 +172,13 @@ void PeripheralHandler_GetEndianness(PeripheralHandler* self)
 
 void PeripheralHandler_SetDebugSignals(PeripheralHandler* self)
 {
+   if (self->mRequest.length != NUMBER_OF_DEBUG_SIGNALS * sizeof(uint32_t))
+   {
+      Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+      return;
+   }
 
+   System_SetActiveDebugSignal((enum DebugSignal *) self->mRequest.data);
 
+   Packet_Acknowledge(&self->mRequest);
 }

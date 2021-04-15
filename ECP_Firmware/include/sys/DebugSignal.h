@@ -27,10 +27,10 @@ enum DebugSignal
 	DEBUG_SIGNAL_TIMER_CODE_PROFILER
 };
 
+void DebugSignal_Set(const enum DebugSignal signal);
+
+void DebugSignal_Clear(const enum DebugSignal signal);
+
 /** @} */	
-
-
-
-
 
 #endif /* DEBUGSIGNAL_H_ */

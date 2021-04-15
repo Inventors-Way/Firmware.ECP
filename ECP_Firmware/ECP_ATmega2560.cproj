@@ -178,6 +178,9 @@
     <Compile Include="source\sys\CodeProfiler.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="source\sys\DebugSignal.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="source\sys\MemoryPool.c">
       <SubType>compile</SubType>
     </Compile>
