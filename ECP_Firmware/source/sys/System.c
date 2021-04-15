@@ -9,12 +9,15 @@
 #include <string.h>
 #include <sys/System.h>
 #include <sys/DebugSignal.h>
+#include "PDebugSignal.h"
 #include <sys/Stopwatch.h>
 #include <sys/SystemConfig.h>
+#include <sys/MemoryPool.h>
 #include <sys/Timer.h>
 #include <hal/DIO.h>
 #include <hal/TimerTick.h>
 #include <srv/comm/ecp/PeripheralHandler.h>
+#include "PTimer.h"
 
 /******************************************************************************
 *                                                                            *
@@ -45,9 +48,21 @@ struct Timer* heartbeatTimer;
 
 void System_Initialize(void)
 {
+   Timer_Initialize();
    PeripheralHandler_Initialize();
+   DebugSignal_Initialize();
+
    heartbeatTimer = Timer_Create(0, System_OnHeartbeat, DEBUG_SIGNAL_TIMER_HEARTBEAT);
    Timer_Start(heartbeatTimer, TIMER_PERIODIC, 1000);
+
+   System_Printf("ECP Firmware, Rev. %d.%d.%d.%d", MAJOR_REVISION, MINOR_REVISION, PATCH_REVISION, ENGINEERING_REVISION);
+   System_Printf("Memory [ %u bytes ]", MemoryPool_AllocatedMemory());
+   System_Printf("Timers [ %u", Timer_GetNumberOfTimers());
+   
+   for (uint8_t n = 0; n < NUMBER_OF_DEBUG_SIGNALS; ++n)
+   {
+      System_Printf("Debug pin [ %u ]: %u", n, DIO_GetDebugPin(n));
+   }
 }
 
 void System_Run(void)
@@ -56,6 +71,7 @@ void System_Run(void)
    DebugSignal_Set(DEBUG_SIGNAL_SYSTEM_RUN);
    #endif
 
+   Timer_Run();
    PeripheralHandler_Run();
 
    #ifdef DEBUG

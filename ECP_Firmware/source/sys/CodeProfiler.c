@@ -21,7 +21,7 @@
  *                                                                            *
  ******************************************************************************/
 
-#define POLLING_MAX_TIME       1000
+#define POLLING_MAX_TIME       100000
 	
 inline void CodeProfiler_Update(CodeProfiler * self, const uint32_t time)
 {
@@ -52,6 +52,7 @@ uint32_t CodeProfiler_Toc(CodeProfiler * self, const enum DebugSignal signal)
 	if (time > self->timeLimit)
 	{
 		CodeProfiler_SendTimingViolation(self, signal, time);
+      System_Printf("TIMEVIOL: %u > %u", time, self->timeLimit);
 	}
 		
 	CodeProfiler_Update(self, time);

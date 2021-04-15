@@ -51,7 +51,7 @@ void DebugSignal_SetActive(const enum DebugSignal* signal)
       CodeProfiler_Reset(&self->profiler);
       DIO_SetPin(self->pin, 0);
 
-      System_Printf("DS: %u", self->signal);
+      System_Printf("DS: %u [ %u ]", self->signal, self->pin);
    }
 }
 
@@ -86,12 +86,12 @@ void DebugSignal_Clear(const enum DebugSignal signal)
  ******************************************************************************/
 
 void DebugSignal_Initialize(void)
-{
+{   
    for (uint8_t n = 0; n < NUMBER_OF_DEBUG_SIGNALS; ++n)
    {
       signals[n].signal = DEBUG_SIGNAL_NONE;
       signals[n].pin = DIO_GetDebugPin(n);
-      CodeProfiler_Reset(&signals[n].profiler);
+      CodeProfiler_Initialize(&signals[n].profiler);
       DIO_SetPin(signals[n].pin, 0);
    }
 }

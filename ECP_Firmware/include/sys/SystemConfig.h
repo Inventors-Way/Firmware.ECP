@@ -64,7 +64,7 @@
 #define MANUFACTORER_NAME              "Acme Coorporation"
 
 #define NUMBER_OF_DEBUG_SIGNALS        2
-#define MAX_STRING_LENGTH              128
+#define MAX_STRING_LENGTH              127
 
 
 

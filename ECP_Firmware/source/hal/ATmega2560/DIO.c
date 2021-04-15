@@ -136,18 +136,7 @@ uint8_t DIO_GetPin(const enum Pin pin)
 
 enum Pin DIO_GetDebugPin(const uint8_t number)
 {
-   enum Pin pin = PIN_DEBUG_OUT01;
-
-   switch (number)
-   {
-      case 0: pin = PIN_DEBUG_OUT01; break;
-      case 1: pin = PIN_DEBUG_OUT02; break;
-
-      default:
-         break;
-   }
-
-   return pin;
+   return PIN_DEBUG_OUT01 + number;
 }
 
 
