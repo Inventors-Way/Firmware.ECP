@@ -65,7 +65,7 @@ void DIO_Initialize(void)
    // PB0-6: Unused                    Input, Pull-Up Enabled
    // PB7: Debug LED                 Output, Default Low
    DDRB =(1<<DDB7)   | (1<<DDB6)   | (0<<DDB5)   | (0<<DDB4)   | (0<<DDB3)   | (0<<DDB2)   | (0<<DDB1)   | (0<<DDB0);
-   PORTB=(1<<PORTB7) | (1<<PORTB6) | (1<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
+   PORTB=(0<<PORTB7) | (0<<PORTB6) | (1<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
 
    // Port C: Unused all configured as inputs with pull-up enabled
    DDRC =(0<<DDC7)   | (0<<DDC6)   | (0<<DDC5)   | (0<<DDC4)   | (0<<DDC3)   | (0<<DDC2)   | (0<<DDC1)   | (0<<DDC0);
