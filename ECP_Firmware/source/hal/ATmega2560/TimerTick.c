@@ -44,6 +44,7 @@
    TCCR3B = (1 << CS31);
 
    timerTicks = 0;
+   currentTimerTicks = 0;
  }
 
  uint32_t TimerTick_GetTicks(void)

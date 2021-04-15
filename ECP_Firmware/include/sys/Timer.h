@@ -26,8 +26,6 @@ enum TimerType
     TIMER_ONESHOT       ///< The timer elapses only once, after which it is stopped and must be started again
 };
 
-struct Timer;
-
 /**
  * \brief Create a timer
  * This functions creates a new timer and returns a pointer to the newly created
@@ -40,7 +38,7 @@ struct Timer;
  * \param[in] name the name of the timer
  * \return a pointer to the created timer object
  */
-struct Timer* Timer_Create(void* owner, void (*func)(void* owner), const enum DebugSignal signal);
+uint8_t Timer_Create(void* owner, void (*func)(void* owner), const enum DebugSignal signal);
 
 /**
  * \brief Set the time limit of a timer
@@ -66,7 +64,7 @@ uint32_t Timer_GetNumberOfTimers(void);
  * \param[in] type the type of the timer (TIMER_PERIODIC or TIMER_ONESHOT)
  * \param[in] period the period of the timer.
  */
-void Timer_Start(struct Timer* self, enum TimerType type, uint32_t period);
+void Timer_Start(const uint8_t id, enum TimerType type, uint32_t period);
 
 /**
  * \brief Stops a currently running timer
@@ -75,7 +73,9 @@ void Timer_Start(struct Timer* self, enum TimerType type, uint32_t period);
  * 
  * \param[in] self a pointer to the timer that should be stopped
  */
-void Timer_Stop(struct Timer* self);
+void Timer_Stop(const uint8_t id);
+
+void Timer_Print(void);
 
 /** @}*/
 

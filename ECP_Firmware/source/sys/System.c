@@ -36,7 +36,7 @@ void System_OnHeartbeat(void* vself)
    System_Printf("Beat");
 }
 
-struct Timer* heartbeatTimer;
+uint8_t heartbeatTimer;
 
 /** @} */
 
@@ -49,15 +49,17 @@ struct Timer* heartbeatTimer;
 void System_Initialize(void)
 {
    Timer_Initialize();
-   PeripheralHandler_Initialize();
    DebugSignal_Initialize();
+   PeripheralHandler_Initialize();
 
    heartbeatTimer = Timer_Create(0, System_OnHeartbeat, DEBUG_SIGNAL_TIMER_HEARTBEAT);
+   Timer_Print();
    Timer_Start(heartbeatTimer, TIMER_PERIODIC, 1000);
+   Timer_Print();
 
    System_Printf("ECP Firmware, Rev. %d.%d.%d.%d", MAJOR_REVISION, MINOR_REVISION, PATCH_REVISION, ENGINEERING_REVISION);
    System_Printf("Memory [ %u bytes ]", MemoryPool_AllocatedMemory());
-   System_Printf("Timers [ %u", Timer_GetNumberOfTimers());
+   System_Printf("Timers [ number = %u ]", Timer_GetNumberOfTimers());
    
    for (uint8_t n = 0; n < NUMBER_OF_DEBUG_SIGNALS; ++n)
    {

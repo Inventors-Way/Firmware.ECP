@@ -6,6 +6,7 @@
  */ 
  #include <hal/SerialPort.h>
  #include <sys/SystemConfig.h>
+ #include <sys/Timer.h>
  #include <sys/System.h>
  #include <sys/DebugSignal.h>
  #include <srv/comm/ecp/PeripheralHandler.h>
@@ -156,6 +157,8 @@ void PeripheralHandler_Ping(PeripheralHandler* self)
    Packet_Start(self->mRequest.code, sizeof(uint32_t));
    Packet_SendUint32(self->counter);
    Packet_End();
+
+   Timer_Print();
 }
 
 void PeripheralHandler_GetEndianness(PeripheralHandler* self)

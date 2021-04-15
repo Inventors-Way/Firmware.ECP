@@ -22,7 +22,7 @@
 * @{
 */
 
-struct TimerItem;
+#define MAX_NUMBER_OF_TIMERS 16
 
 /**
 * @brief
@@ -30,30 +30,19 @@ struct TimerItem;
 */
 struct Timer
 {
-   struct TimerItem* id;
-   
    uint32_t period;
    enum TimerType  type;
    uint8_t  running;
    uint32_t startTime;
+   enum DebugSignal signal;
    
    void* owner;
    void (*func)(void* self);
 };
 
-/**
-* @brief
-*
-*/
-struct TimerItem
-{
-   struct TimerItem* next;
-   enum DebugSignal signal;
 
-   struct Timer* timer;
-};
-
-struct TimerItem* timers;
+struct Timer timers[MAX_NUMBER_OF_TIMERS];
+uint8_t noOfTimers = 0;
 
 /**
 * @brief
@@ -69,15 +58,7 @@ uint32_t Timer_GetElapsedTime(const uint32_t time);
 * @param self
 * @return uint8_t
 */
-uint8_t Timer_Check(struct Timer* const self);
-
-/**
-* @brief
-*
-* @param self
-* @param id
-*/
-void Timer_Add(struct Timer* const self, const enum DebugSignal signal);
+uint8_t Timer_Check(const uint8_t id);
 
 /** @} */
 
@@ -89,49 +70,47 @@ void Timer_Add(struct Timer* const self, const enum DebugSignal signal);
 
 void Timer_Initialize(void)
 {
-   timers = 0;
+   noOfTimers = 0;
 }
 
 void Timer_Run(void)
 {
-   struct TimerItem* iterator = timers;
-
-   while (iterator != 0)
+   for (uint8_t n = 0; n < noOfTimers; ++n)
    {
-      if (Timer_Check(iterator->timer))
+      if (Timer_Check(n))
       {
          #ifdef DEBUG
-         DebugSignal_Set(iterator->signal);
+         DebugSignal_Set(timers[n].signal);
          #endif
 
-         iterator->timer->func(iterator->timer->owner);
+         timers[n].func(timers[n].owner);
 
          #ifdef DEBUG
-         DebugSignal_Clear(iterator->signal);
+         DebugSignal_Clear(timers[n].signal);
          #endif
       }
-      
-      iterator = iterator->next;
    }
 }
 
-uint8_t Timer_Check(struct Timer* const self)
+uint8_t Timer_Check(const uint8_t id)
 {
    uint8_t retValue = 0;
    
-   if (self->running)
+   if (timers[id].running == 1)
    {
-      if (Timer_GetElapsedTime(self->startTime) > self->period)
+      const uint32_t elapsedTime = Timer_GetElapsedTime(timers[id].startTime);
+
+      if (elapsedTime > timers[id].period)
       {
          retValue = 1U;
          
-         if (self->type == TIMER_PERIODIC)
+         if (timers[id].type == TIMER_PERIODIC)
          {
-            self->startTime += self->period;
+            timers[id].startTime += timers[id].period;
          }
          else
          {
-            Timer_Stop(self);
+            Timer_Stop(id);
          }
       }
    }
@@ -139,48 +118,57 @@ uint8_t Timer_Check(struct Timer* const self)
    return retValue;
 }
 
-struct Timer* Timer_Create(void* owner, void (*func)(void* owner), const enum DebugSignal signal)
-{
-   struct Timer* retValue = (struct Timer*) MemoryPool_Allocate(sizeof(struct Timer));
-   retValue->type = TIMER_ONESHOT;
-   retValue->period = 0;
-   retValue->running = 0;
-   retValue->startTime = 0;
-   retValue->owner = owner;
-   retValue->func = func;
-   retValue->id = 0;
-   
-   Timer_Add(retValue, signal);
-   
-   return retValue;
+uint8_t Timer_Create(void* owner, void (*func)(void* owner), const enum DebugSignal signal)
+{   
+   uint8_t tid = 0;
+
+   if (noOfTimers < MAX_NUMBER_OF_TIMERS - 1)
+   {
+      tid = noOfTimers;
+
+      timers[tid].type = TIMER_ONESHOT;
+      timers[tid].period = 0;
+      timers[tid].running = 0;
+      timers[tid].startTime = 0;
+      timers[tid].owner = owner;
+      timers[tid].func = func;
+      timers[tid].signal = signal;
+
+      ++noOfTimers;
+   }
+   else
+   {
+      System_HandleFatalError();
+   }
+
+   return tid;
 }
 
-void Timer_Start(struct Timer* self, enum TimerType type, uint32_t period)
+void Timer_Start(const uint8_t id, enum TimerType type, uint32_t period)
 {
-   self->type = type;
-   self->period = period;
-   self->running = 1;
-   self->startTime = TimerTick_GetTicks();
+   timers[id].type = type;
+   timers[id].period = period;
+   timers[id].running = 1;
+   timers[id].startTime = TimerTick_GetTicks();
 }
 
-void Timer_Stop(struct Timer* self)
+void Timer_Stop(const uint8_t id)
 {
-   self->running = 0U;
-   self->startTime = 0U;
+   timers[id].running = 0U;
+   timers[id].startTime = 0U;
 }
 
 uint32_t Timer_GetNumberOfTimers(void)
 {
-   uint32_t retValue = 0;
-   struct TimerItem* iterator = timers;
+   return noOfTimers;
+}
 
-   while (iterator != 0)
+void Timer_Print(void)
+{
+   for (uint8_t n = 0; n < noOfTimers; ++n)
    {
-      ++retValue;
-      iterator = iterator->next;
+      System_Printf("[ %u ] sig = %u, run = %u, type =%u", n, timers[n].signal, timers[n].running, timers[n].type);
    }
-
-   return retValue;
 }
 
 /******************************************************************************
@@ -193,22 +181,4 @@ uint32_t Timer_GetElapsedTime(const uint32_t time)
 {
    const uint32_t currentTimerTicks = TimerTick_GetTicks();
    return time <= currentTimerTicks ? currentTimerTicks - time : (UINT32_MAX - time) + currentTimerTicks;
-}
-
-void Timer_Add(struct Timer* const self, const enum DebugSignal signal)
-{
-   struct TimerItem* item = (struct TimerItem*) MemoryPool_Allocate(sizeof(struct TimerItem));
-   item->timer = self;
-   item->next = 0;
-   item->signal = signal;
-   
-   if (timers != 0)
-   {
-      item->next = timers;
-      timers = item;
-   }
-   else
-   {
-      timers = item;
-   }
 }
