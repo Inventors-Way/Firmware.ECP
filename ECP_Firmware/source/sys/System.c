@@ -45,6 +45,7 @@ void System_Initialize(void)
 
 void System_Run(void)
 {
+   System_HandleFatalError();
    PeripheralHandler_Run();
 }
 
@@ -53,67 +54,70 @@ void System_HandleFatalError(void)
    while (1)
    {
       // Halt the processor
+      DIO_SetPin(PIN_DEBUG_OUT02, 1);
+      DIO_SetPin(PIN_DEBUG_OUT02, 0);
 
       // S (Morse Code)
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
 
       // SPACE
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
 
       // O (Morse Code)
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
 
       // SPACE
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
 
       // S (Morse Code)
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 1);
 
       // SPACE
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
 
       // SPACE
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
 
       // SPACE
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
-      DIO_SetPin(PIN_LED_DEBUG, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
+      DIO_SetPin(PIN_DEBUG_OUT01, 0);
    }
 }
 

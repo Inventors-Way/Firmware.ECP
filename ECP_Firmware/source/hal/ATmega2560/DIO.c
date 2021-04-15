@@ -64,7 +64,7 @@ void DIO_Initialize(void)
    //      Function                 Configuration
    // PB0-6: Unused                    Input, Pull-Up Enabled
    // PB7: Debug LED                 Output, Default Low
-   DDRB =(1<<DDB7)   | (0<<DDB6)   | (0<<DDB5)   | (0<<DDB4)   | (0<<DDB3)   | (0<<DDB2)   | (0<<DDB1)   | (0<<DDB0);
+   DDRB =(1<<DDB7)   | (1<<DDB6)   | (0<<DDB5)   | (0<<DDB4)   | (0<<DDB3)   | (0<<DDB2)   | (0<<DDB1)   | (0<<DDB0);
    PORTB=(1<<PORTB7) | (1<<PORTB6) | (1<<PORTB5) | (1<<PORTB4) | (1<<PORTB3) | (1<<PORTB2) | (1<<PORTB1) | (1<<PORTB0);
 
    // Port C: Unused all configured as inputs with pull-up enabled
@@ -137,25 +137,32 @@ void DIO_SetPinActive(const enum Pin pin)
 {
    switch (pin)
    {
-      case PIN_LED_DEBUG:
-      PORTB |= (1 << PB7);
-      pin_states[pin] = 1;
-      break;
+      case PIN_DEBUG_OUT01:
+         PORTB |= (1 << PB7);
+         pin_states[pin] = 1;
+         break;
+      case PIN_DEBUG_OUT02:
+         PORTB |= (1 << PB6);
+         pin_states[pin] = 1;
+         break;
       default:
-      break;
+         break;
    }
 }
-
 
 void DIO_SetPinInActive(const enum Pin pin)
 {
    switch (pin)
    {
-      case PIN_LED_DEBUG:
-      PORTB &= ~(1 << PB7);
-      pin_states[pin] = 0;
-      break;
+      case PIN_DEBUG_OUT01:
+         PORTB &= ~(1 << PB7);
+         pin_states[pin] = 0;
+         break;
+      case PIN_DEBUG_OUT02:
+         PORTB &= ~(1 << PB6);
+         pin_states[pin] = 0;
+         break;
       default:
-      break;
+         break;
    }
 }

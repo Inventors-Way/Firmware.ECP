@@ -11,7 +11,8 @@
 
 enum Pin
 {
-	PIN_LED_DEBUG = 0,     ///< Debug Diode (PB7)
+	PIN_DEBUG_OUT01 = 0,     ///< Debug Diode (PB7)
+   PIN_DEBUG_OUT02,         ///< Debug Diode (PB6)
 	PIN_EOL
 };
 
