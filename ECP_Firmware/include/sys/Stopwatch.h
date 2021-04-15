@@ -20,10 +20,6 @@
  * @brief 
  * 
  */
-typedef struct
-{
-    uint32_t timestamp;
-} Stopwatch;
 
 /**
  * @brief 
@@ -42,7 +38,7 @@ void Stopwatch_Suspend(void);
  * 
  * @param self 
  */
-void Stopwatch_Tic(Stopwatch* self);
+void Stopwatch_Tic(uint32_t* timestamp);
 
 /**
  * @brief 
@@ -50,7 +46,7 @@ void Stopwatch_Tic(Stopwatch* self);
  * @param self 
  * @return uint32_t 
  */
-uint32_t Stopwatch_Toc(Stopwatch* self);
+uint32_t Stopwatch_Toc(uint32_t* timestamp);
 
 /** @}*/
 

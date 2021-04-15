@@ -19,8 +19,6 @@
  * @{
  */
 
-#define STOPWATCH_PERIOD    32768
-
 /** @} */
 
 /******************************************************************************
@@ -29,17 +27,18 @@
 *                                                                            *
 ******************************************************************************/
 
-void Stopwatch_Tic(Stopwatch* self)
+void Stopwatch_Tic(uint32_t* timestamp)
 {
-    self->timestamp = TimerTick_GetMicroTicks();
+    *timestamp = TimerTick_GetMicroTicks();
 }
 
-uint32_t Stopwatch_Toc(Stopwatch* self)
+uint32_t Stopwatch_Toc(uint32_t* timestamp)
 {
-   const uint32_t currentTime = TimerTick_GetTicks();
-   const uint32_t time = self->timestamp <= currentTime ? 
-                  currentTime - self->timestamp : 
-                  (STOPWATCH_PERIOD - self->timestamp) + currentTime;
+   const uint32_t maximum = TimerTick_MicroTickMaximum();
+   const uint32_t currentTime = TimerTick_GetMicroTicks();
+   const uint32_t time = *timestamp <= currentTime ? 
+                  currentTime - *timestamp : 
+                  (maximum - *timestamp) + currentTime;
 
    return time;
 }

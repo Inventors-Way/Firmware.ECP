@@ -27,7 +27,7 @@ typedef struct
    uint32_t max;
    uint32_t min;
    
-   Stopwatch watch;
+   uint32_t watch;
 } CodeProfiler;
 
 void CodeProfiler_Initialize(CodeProfiler * self);

@@ -47,10 +47,13 @@ void System_Initialize(void)
 
 void System_Run(void)
 {
-   Stopwatch watch;
+   uint32_t watch;
    Stopwatch_Tic(&watch);
+   DIO_SetPin(PIN_DEBUG_OUT02, 1);
    PeripheralHandler_Run();
+   DIO_SetPin(PIN_DEBUG_OUT02, 0);
    System_Printf("Sys tick: %u", Stopwatch_Toc(&watch));
+
 }
 
 void System_HandleFatalError(void)

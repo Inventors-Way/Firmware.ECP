@@ -53,8 +53,6 @@ void PeripheralHandler_Run(void)
 {
    PeripheralHandler* self = &peripheralHandler;
 
-   DIO_SetPin(PIN_DEBUG_OUT02, 1);
-
    if (PeripheralHandler_IsRequestAvailable(self))
    {
       ++(self->counter);
@@ -75,8 +73,6 @@ void PeripheralHandler_Run(void)
       
       Packet_Initialize(&self->mRequest);
    }
-
-   DIO_SetPin(PIN_DEBUG_OUT02, 0);
 }
 
 void PeripheralHandler_TransmitMessage(const uint8_t code, const uint8_t length, const uint8_t * const data)

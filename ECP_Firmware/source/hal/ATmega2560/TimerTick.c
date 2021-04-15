@@ -53,8 +53,12 @@
 
  uint32_t TimerTick_GetMicroTicks(void)
  {
-   const uint32_t retValue = TCNT3;
-   return retValue >> 1;
+   return TCNT3 >> 1;
+ }
+
+ uint32_t TimerTick_MicroTickMaximum(void)
+ {
+   return UINT16_MAX >> 1;  
  }
 
 

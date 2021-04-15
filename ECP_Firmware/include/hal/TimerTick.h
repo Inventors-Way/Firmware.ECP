@@ -14,4 +14,6 @@ uint32_t TimerTick_GetTicks(void);
 
 uint32_t TimerTick_GetMicroTicks(void);
 
+uint32_t TimerTick_MicroTickMaximum(void);
+
 #endif /* TIMERTICK_H_ */
