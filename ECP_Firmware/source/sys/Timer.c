@@ -88,7 +88,7 @@ void Timer_Run(void)
          #ifdef DEBUG
          DebugSignal_Clear(timers[n].signal);
          #endif
-      }
+      } 
    }
 }
 
