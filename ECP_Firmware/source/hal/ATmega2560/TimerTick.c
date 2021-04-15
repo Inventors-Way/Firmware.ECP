@@ -22,7 +22,7 @@
  #define F1_TIMER 1000
  #define OCR_REG1 (F_CPU/(F1_TIMER))
 
- volatile uint8_t timerTicks;
+ volatile uint32_t timerTicks;
  uint32_t currentTimerTicks;
 
  /******************************************************************************
@@ -33,10 +33,15 @@
 
  void TimerTick_Initialize(void)
  {
+   // Configure Timer 1 (16 bit)
    OCR1A   = OCR_REG1;
    TCCR1A  = 0;                          // set entire TCCR1A register to 0
    TCCR1B  = (1 << WGM12) | (1 << CS10); // CTC mode + 1 x prescaler
    TIMSK1 |= (1 << OCIE1A);              // Enable timer compare interrupt:
+
+   // Configure Timer 3 (16 bit)
+   TCCR3A = 0;
+   TCCR3B = (1 << CS31);
 
    timerTicks = 0;
  }
@@ -48,26 +53,20 @@
 
  uint32_t TimerTick_GetMicroTicks(void)
  {
-   return 0;
+   const uint32_t retValue = TCNT3;
+   return retValue >> 1;
  }
 
 
  void TimerTick_Run(void)
  {
-    const uint8_t ticks = timerTicks;
+   const uint8_t ticks = timerTicks;
 
-    if (ticks > 0)
-    {
-       if (ticks < UINT8_MAX)
-       {
-          timerTicks = 0;
-          currentTimerTicks += ticks;
-       }
-       else
-       {
-          System_HandleFatalError();
-       }
-    }
+   if (ticks > 0)
+   {
+      timerTicks = 0;
+      currentTimerTicks += ticks;
+   }
  }
 
  /******************************************************************************
@@ -78,6 +77,5 @@
 
  ISR(TIMER1_COMPA_vect)
  {
-   if (timerTicks < UINT8_MAX)
-       ++timerTicks;
+   ++timerTicks;
  }

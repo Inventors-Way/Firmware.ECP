@@ -19,7 +19,7 @@
  * @{
  */
 
-#define STOPWATCH_PERIOD    UINT32_MAX
+#define STOPWATCH_PERIOD    32768
 
 /** @} */
 

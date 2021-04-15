@@ -8,8 +8,10 @@
 #include <stdarg.h>
 #include <sys/System.h>
 #include <sys/DebugSignal.h>
+#include <sys/Stopwatch.h>
 #include <sys/SystemConfig.h>
 #include <hal/DIO.h>
+#include <hal/TimerTick.h>
 #include <srv/comm/ecp/PeripheralHandler.h>
 
 /******************************************************************************
@@ -45,7 +47,10 @@ void System_Initialize(void)
 
 void System_Run(void)
 {
+   Stopwatch watch;
+   Stopwatch_Tic(&watch);
    PeripheralHandler_Run();
+   System_Printf("Sys tick: %u", Stopwatch_Toc(&watch));
 }
 
 void System_HandleFatalError(void)
@@ -135,17 +140,6 @@ void System_Printf(const char* format, ...)
 	vsnprintf(str, MAX_STRING_LENGTH, format, arguments);
 	va_end(arguments);
 	    
-   PeripheralHandler_Printf(str);
-}
-
-void System_Printf_P(const char* format, ...)
-{
-   static char str[MAX_STRING_LENGTH];
-   va_list arguments;
-   va_start(arguments, format);
-   vsnprintf_P(str, MAX_PACKET_SIZE, format, arguments);
-   va_end(arguments);
-   
    PeripheralHandler_Printf(str);
 }
 
