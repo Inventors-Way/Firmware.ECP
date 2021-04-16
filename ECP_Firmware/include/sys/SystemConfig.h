@@ -43,8 +43,8 @@
 #define SET_DEBUG_SIGNAL         0x04
 
 // MESSAGES
-#define TIMER_STATISTICS_MSG     0xB0
-#define TIMER_RUN_TIME_MSG       0xB1
+#define TIMING_MSG               0xFD
+#define TIMING_VIOLATION_MSG     0xFE
 #define PRINTF_MSG               0xFF
 
 // ERROR CODES 

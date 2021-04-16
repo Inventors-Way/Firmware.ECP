@@ -67,7 +67,7 @@ void CodeProfiler_SendProfilerMessage(CodeProfiler * self, const enum DebugSigna
    Stream_InsertUint32(data, 12, self->max);
    Stream_InsertUint32(data, 16, self->min);
 
-   System_TransmitMessage(TIMER_RUN_TIME_MSG, 20, data);
+   System_TransmitMessage(TIMING_MSG, 20, data);
 }
 
 
@@ -85,7 +85,7 @@ void CodeProfiler_SendTimingViolation(CodeProfiler * self, const enum DebugSigna
    Stream_InsertUint32(data, 4, self->timeLimit);
    Stream_InsertUint32(data, 8, time);
 
-   System_TransmitMessage(TIMER_STATISTICS_MSG, 12, data);
+   System_TransmitMessage(TIMING_VIOLATION_MSG, 12, data);
 }
 
 #endif
