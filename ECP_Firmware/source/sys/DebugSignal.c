@@ -29,9 +29,11 @@ typedef struct {
 } TDebugSignal;
 
 TDebugSignal signals[NUMBER_OF_DEBUG_SIGNALS];
-struct Timer* debugTimer;
+uint8_t debugTimer;
 
 uint8_t DebugSignal_GetIndex(const enum DebugSignal signal);
+
+void DebugSignal_OnTimer(void* vself);
 
 /** @} */
 
@@ -94,6 +96,9 @@ void DebugSignal_Initialize(void)
       CodeProfiler_Initialize(&signals[n].profiler);
       DIO_SetPin(signals[n].pin, 0);
    }
+
+   debugTimer = Timer_Create(0, DebugSignal_OnTimer, DEBUG_SIGNAL_TIMER_DEBUG_SIGNAL);
+   Timer_Start(debugTimer, TIMER_PERIODIC, PROFILER_PERIOD);
 }
 
 uint8_t DebugSignal_GetIndex(const enum DebugSignal signal)
@@ -111,3 +116,15 @@ uint8_t DebugSignal_GetIndex(const enum DebugSignal signal)
 
    return retValue;
 };
+
+void DebugSignal_OnTimer(void* vself)
+{
+   for (uint8_t n = 0; n < NUMBER_OF_DEBUG_SIGNALS; ++n)
+   {
+      if (signals[n].signal != DEBUG_SIGNAL_NONE)
+      {
+         CodeProfiler_SendProfilerMessage(&signals[n].profiler, signals[n].signal);
+         CodeProfiler_Reset(&signals[n].profiler);
+      }
+   }
+}

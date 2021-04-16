@@ -17,6 +17,7 @@
 
 #define MEMORY_POOL_SIZE      2048
 #define TASK_TIMELIMIT       20000
+#define PROFILER_PERIOD       1000
 
 /*****************************************************************************
  *                                                                           *
