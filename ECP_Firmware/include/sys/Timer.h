@@ -75,8 +75,6 @@ void Timer_Start(const uint8_t id, enum TimerType type, uint32_t period);
  */
 void Timer_Stop(const uint8_t id);
 
-void Timer_Print(void);
-
 /** @}*/
 
 

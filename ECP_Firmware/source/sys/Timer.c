@@ -163,14 +163,6 @@ uint32_t Timer_GetNumberOfTimers(void)
    return noOfTimers;
 }
 
-void Timer_Print(void)
-{
-   for (uint8_t n = 0; n < noOfTimers; ++n)
-   {
-      System_Printf("[ %u ] sig = %u, run = %u, type =%u", n, timers[n].signal, timers[n].running, timers[n].type);
-   }
-}
-
 /******************************************************************************
 *                                                                            *
 *                       Private Function Implementation                      *
