@@ -7,6 +7,6 @@ The firmware has the following capabilities:
 1. A software timer system, that allow for an arbitrary number of one miliscond precision timers, which is based in hardware on the Timer 1.
 2. A tic/toc system for measurements of timing with a microsecond precision based on Timer 3. 
 3. Serial communication based on Serial Port 0
-4. A digital I/O system that currently provides two digital output pins (PB7: Debug Signal 1, and PB6: Debug Signal 2).
+4. A digital I/O system that currently provides two digital output pins (PB7/D13: Debug Signal 1, and PB6/D12: Debug Signal 2).
 5. Serial Communication according to the ECP Protocol.
 
