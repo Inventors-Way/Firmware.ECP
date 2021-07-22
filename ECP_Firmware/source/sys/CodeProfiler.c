@@ -45,7 +45,7 @@ void CodeProfiler_Initialize(CodeProfiler * self)
 
 uint32_t CodeProfiler_Toc(CodeProfiler * self, const enum DebugSignal signal)
 {
-	const uint32_t time = Stopwatch_Toc(&self->watch);
+	const uint32_t time = Stopwatch_Toc(&self->watch) - 4; // 4 microseconds to account for code delay
 		
 	if (time > self->timeLimit)
 	{
