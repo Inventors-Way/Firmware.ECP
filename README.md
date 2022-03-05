@@ -10,4 +10,10 @@ The firmware has the following capabilities:
 4. A digital I/O system that currently provides two digital output pins (PB7/D13: Debug Signal 1, and PB6/D12: Debug Signal 2).
 5. Serial Communication according to the ECP Protocol.
 
-![](docs/Pinout-Mega2560rev3_latest.png)
+![](docs/Arduino-Mega-Pinout-High-Res.jpg)
+
+
+## Peripherals
+
+### Serial Peripheral Interface (SPI)
+

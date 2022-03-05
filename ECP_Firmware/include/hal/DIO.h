@@ -11,8 +11,8 @@
 
 enum Pin
 {
-	PIN_DEBUG_OUT01 = 0,     ///< Debug Diode (PB7)
-   PIN_DEBUG_OUT02,         ///< Debug Diode (PB6)
+	PIN_DEBUG_OUT01 = 0,     ///< Debug Diode (PB7) [Arduino: D13 ]
+    PIN_DEBUG_OUT02,         ///< Debug Diode (PB6) [Arduino: D12 ]
 	PIN_EOL
 };
 
