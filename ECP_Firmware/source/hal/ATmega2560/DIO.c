@@ -68,7 +68,7 @@ void DIO_Initialize(void)
    PORTE=(1<<PORTE7) | (1<<PORTE6) | (0<<PORTE5) | (1<<PORTE4) | (1<<PORTE3) | (1<<PORTE2) | (1<<PORTE1) | (0<<PORTE0);
 
    // Port F: Unused all configured as inputs with pull-up enabled
-   DDRF =(1<<DDF7)   | (1<<DDF6)   | (1<<DDF5)   | (1<<DDF4)   | (1<<DDF3)   | (1<<DDF2)   | (1<<DDF1)   | (1<<DDF0);
+   DDRF =(0<<DDF7)   | (0<<DDF6)   | (0<<DDF5)   | (0<<DDF4)   | (0<<DDF3)   | (0<<DDF2)   | (0<<DDF1)   | (0<<DDF0);
    PORTF=(1<<PORTF7) | (1<<PORTF6) | (1<<PORTF5) | (1<<PORTF4) | (1<<PORTF3) | (1<<PORTF2) | (1<<PORTF1) | (1<<PORTF0);
 
    // Port G: Unused all configured as inputs with pull-up enabled
