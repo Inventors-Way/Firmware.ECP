@@ -67,14 +67,15 @@ void DIO_Initialize(void)
    PORTD=(1<<PORTD7) | (1<<PORTD6) | (1<<PORTD5) | (1<<PORTD4) | (1<<PORTD3) | (1<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
 
    // Port E: Used for USART0
+   //
    //      Name           Configuration               Arduino Pin
-   // PE0: RX0            Input (Pull-Up Enabled)
-   // PE1: TX0            Output (HIGH)
-   // PE2: Unused         Input (Pull-Up Enabled)
-   // PE3: Unused         Input (Pull-Up Enabled)
-   // PE4: Unused         Input (Pull-Up Enabled)
-   // PE5: Unused         Input (Pull-Up Enabled)
-   // PE6: Unused         Input (Pull-Up Enabled)
+   // PE0: RX0            Input (Pull-Up Enabled)     D0
+   // PE1: TX0            Output (HIGH)               D1
+   // PE2: Unused         Input (Pull-Up Enabled)     
+   // PE3: Unused         Input (Pull-Up Enabled)     D5
+   // PE4: Unused         Input (Pull-Up Enabled)     D2
+   // PE5: Unused         Input (Pull-Up Enabled)     D3
+   // PE6: Unused         Input (Pull-Up Enabled)    
    // PE7: Unused         Input (Pull-Up Enabled)
    DDRE =(0<<DDE7)   | (0<<DDE6)   | (0<<DDE5)   | (0<<DDE4)   | (0<<DDE3)   | (0<<DDE2)   | (1<<DDE1)   | (0<<DDE0);
    PORTE=(1<<PORTE7) | (1<<PORTE6) | (0<<PORTE5) | (1<<PORTE4) | (1<<PORTE3) | (1<<PORTE2) | (1<<PORTE1) | (0<<PORTE0);
