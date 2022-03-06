@@ -62,7 +62,6 @@
    return UINT16_MAX >> 1;  
  }
 
-
  void TimerTick_Run(void)
  {
    const uint8_t ticks = timerTicks;

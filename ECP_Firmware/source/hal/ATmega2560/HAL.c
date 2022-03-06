@@ -8,6 +8,7 @@
 #include <avr/interrupt.h>
 #include <hal/HAL.h>
 #include <hal/DIO.h>
+#include <hal/SPI.h>
 #include <hal/SerialPort.h>
 #include <hal/TimerTick.h>
 #include <sys/DebugSignal.h>
@@ -19,6 +20,7 @@ void HAL_Initialize(void)
    DIO_Initialize();
    TimerTick_Initialize();
    SerialPort_Initialize();
+   SPI_Initialize();
 
    sei();
 }

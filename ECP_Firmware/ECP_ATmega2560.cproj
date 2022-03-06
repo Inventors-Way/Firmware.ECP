@@ -146,6 +146,9 @@
     <Compile Include="include\hal\SerialPort.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="include\hal\SPI.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="include\hal\TimerTick.h">
       <SubType>compile</SubType>
     </Compile>
@@ -189,6 +192,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\hal\ATmega2560\SerialPort.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\hal\ATmega2560\SPI_Implementation.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\hal\ATmega2560\TimerTick.c">
