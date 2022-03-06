@@ -30,6 +30,11 @@
 Buffer rxBuffer;
 uint8_t rxMemory[RX_BUFFER_SIZE];
 
+Buffer txBuffer;
+uint8_t txMemory[TX_BUFFER_SIZE];
+
+uint8_t txComplete;
+
 /******************************************************************************
  *                                                                            *
  *                       Public Function Implementation                       *
@@ -41,6 +46,9 @@ void SerialPort_Initialize(void)
    Buffer_Create(&rxBuffer, rxMemory, RX_BUFFER_SIZE, sizeof(uint8_t));
    Buffer_Initialize(&rxBuffer);
 
+   Buffer_Create(&txBuffer, txMemory, TX_BUFFER_SIZE, sizeof(uint8_t));
+   Buffer_Initialize(&txBuffer);
+
    // USART0 initialization
    // Communication Parameters: 8 Data, 1 Stop, No Parity
    // USART0 Receiver: On
@@ -51,12 +59,29 @@ void SerialPort_Initialize(void)
    UCSR0B = (1<<RXCIE0) | (0<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
    UCSR0C = (0<<UMSEL01) | (0<<UMSEL00) | (0<<UPM01) | (0<<UPM00) | (0<<USBS0) | (1<<UCSZ01) | (1<<UCSZ00) | (0<<UCPOL0);
    UBRR0 = BAUD_PRESCALLER;
+   
+   txComplete = 1;
 }
 
 void SerialPort_Write(const uint8_t data)
 {
-   UDR0 = data;
-   while((UCSR0A & (1<<UDRE0)) == 0);
+	if (txComplete)
+	{
+	   UDR0 = data;
+	   txComplete = 0;
+	}
+	else
+	{
+		UCSR0B = (1<<RXCIE0) | (0<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
+		
+		if (!Buffer_IsFull(&txBuffer))
+		{
+			uint8_t * const ptr = Buffer_Write(&txBuffer);	
+			*ptr = data;		
+		}
+
+		UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
+	}
 }
 
 uint8_t SerialPort_IsPending(void)
@@ -68,14 +93,22 @@ uint8_t SerialPort_Read(void)
 {
    uint8_t retValue = 0;
    
-   UCSR0B = (0<<RXCIE0) | (1<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
+   UCSR0B = (0<<RXCIE0) | (0<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
    if (rxBuffer.count > 0)
    {
       const uint8_t * const data = (uint8_t *) Buffer_Read(&rxBuffer);
       retValue = *data;
 
    }
-   UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
+   
+   if (txComplete)
+   {
+	   UCSR0B = (1<<RXCIE0) | (0<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);	   
+   }
+   else
+   {
+	   UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);
+   }
    
    return retValue;
 }
@@ -97,4 +130,14 @@ ISR(USART0_RX_vect)
 
 ISR(USART0_TX_vect)
 {
+	if (!Buffer_IsEmpty(&txBuffer))
+	{
+		uint8_t const * const data = (uint8_t *) Buffer_Read(&txBuffer);
+		UDR0 = *data;
+	}
+	else
+	{
+		UCSR0B = (1<<RXCIE0) | (0<<TXCIE0) | (0<<UDRIE0) | (1<<RXEN0) | (1<<TXEN0) | (0<<UCSZ02) | (0<<RXB80) | (0<<TXB80);		
+		txComplete = 1;
+	}
 }
