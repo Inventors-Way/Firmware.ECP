@@ -55,12 +55,6 @@ void SPI_Start(uint16_t length,
 	}
 }
 
-/******************************************************************************
-*                                                                            *
-*                       Internal Function Implementation                     *
-*                                                                            *
-******************************************************************************/
-
 uint8_t SPI_Initialize(const enum SPI_DORD dord,
                        const enum SPI_CPOL cpol,
                        const enum SPI_CPHA cpha,
