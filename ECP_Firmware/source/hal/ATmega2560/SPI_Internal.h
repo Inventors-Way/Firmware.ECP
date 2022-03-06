@@ -11,6 +11,4 @@
 
 void SPI_Initialize(void);
 
-void SPI_Run(void);
-
 #endif /* SPI_INTERNAL_H_ */

@@ -32,7 +32,6 @@ void HAL_Run(void)
    #endif
 
    TimerTick_Run();
-   SPI_Run();
 
    #ifdef DEBUG
    DebugSignal_Clear(DEBUG_SIGNAL_HAL_RUN);

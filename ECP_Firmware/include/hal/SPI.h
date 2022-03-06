@@ -9,17 +9,9 @@
 
 #include <stdint.h>
 
-struct SPI
-{
-	uint16_t length;
-	uint8_t *rxData;
-	uint8_t *txDate;
-	
-	void (*callback)(void *owner);
-	void *owner;
-};
-
-uint8_t SPI_Start(struct SPI * action);
+void SPI_Start(uint16_t length,
+               uint8_t *txData,
+               uint8_t *rxData);
 
 
 #endif /* SPI_H_ */

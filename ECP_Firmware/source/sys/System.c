@@ -33,7 +33,7 @@
 
 void System_OnHeartbeat(void* vself)
 {
-   System_Printf("Beat");
+   
 }
 
 uint8_t heartbeatTimer;

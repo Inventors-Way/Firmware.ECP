@@ -79,11 +79,11 @@
     Packet_SendDataByte(length);
  }
 
- void Packet_SendData(const uint8_t size, const void * const vdata)
+ void Packet_SendData(const uint16_t size, const void * const vdata)
  {
     const uint8_t * const data = (uint8_t *) vdata;
     
-    for (uint8_t n = 0; n < size; ++n)
+    for (uint16_t n = 0; n < size; ++n)
     {
        Packet_SendDataByte(data[n]);
     }

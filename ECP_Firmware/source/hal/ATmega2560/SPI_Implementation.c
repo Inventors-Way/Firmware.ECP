@@ -8,6 +8,7 @@
 #include "SPI_Internal.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
+#include <sys/System.h>
 
 /******************************************************************************
 *                                                                            *
@@ -33,16 +34,25 @@ uint16_t count;
 *                                                                            *
 ******************************************************************************/
 
-uint8_t SPI_Start(struct SPI * action)
+void SPI_Start(uint16_t length,
+               uint8_t *txData,
+               uint8_t *rxData)
 {
-	if (action != 0U) return 0;
-	if (current == 0U) return 0;
+	if (txData == 0U)
+	{
+		System_HandleFatalError();
+	}
 	
-	current = action;
-	SPDR = current->txDate[0];
-	count = 1;
-	
-	return 1;
+	for (uint16_t n = 0; n < length; ++n)
+	{
+		SPDR = txData[n];
+		while (!(SPSR & (1 << SPIF)));
+		
+		if (rxData != 0U)
+		{
+			rxData[n] = SPDR;			
+		}
+	}
 }
 
 /******************************************************************************
@@ -81,7 +91,7 @@ void SPI_Initialize(void)
 	//              1: Sampled on trailing edge
 	// SPR1, SPR0 : SPI Clock Rate Select
 	//              Determine SCL clock rate together with the SPI2X bit in SPSR (see page 197 in the datasheet)
-	SPCR = (1 << SPIE) | (1 << SPE) | (0 << DORD) | (1 << MSTR) | (0 << CPOL) | (0 << CPHA) | (0 << SPR1) | (0 << SPR0);
+	SPCR = (0 << SPIE) | (1 << SPE) | (0 << DORD) | (1 << MSTR) | (0 << CPOL) | (0 << CPHA) | (0 << SPR1) | (0 << SPR0);
 	
 	// SPSR - SPI Status Register
 	//
@@ -94,41 +104,9 @@ void SPI_Initialize(void)
 	SPSR = (1 << SPI2X);
 }
 
-void SPI_Run(void)
-{
-	uint8_t completed = 0;
-	
-	DISABLE_SPI_INTERRUPT();
-    completed = current != 0U && count == current->length;
-	ENABLE_SPI_INTERRUPT();
-	
-	if (completed)
-	{
-		struct SPI * temp = current;
-		current = 0U; // Make it possible for the callback to chain SPI actions
-
-		if (temp->callback != 0U)
-		{
-			temp->callback(temp->owner);
-		}
-	}
-}
-
 /******************************************************************************
 *                                                                            *
 *                       Private Function Implementation                      *
 *                                                                            *
 ******************************************************************************/
-
-ISR(SPI_STC_vect)
-{
-	if (current != 0U)
-	{
-		if (count < current->length)
-		{
-			SPDR = current->txDate[count];
-			++count;
-		}
-	}
-}
 

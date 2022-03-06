@@ -78,7 +78,7 @@ uint8_t Packet_Add(Packet* self, const uint8_t data);
 
 void Packet_Start(const uint8_t code, const uint32_t length);
 
-void Packet_SendData(const uint8_t size, const void * const vdata);
+void Packet_SendData(const uint16_t size, const void * const vdata);
 
 inline void Packet_SendUint8(const uint8_t data) { Packet_SendData(sizeof(uint8_t), &data); }
 inline void Packet_SendInt8(const int8_t data) { Packet_SendData(sizeof(int8_t), &data); }

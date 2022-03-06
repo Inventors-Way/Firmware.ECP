@@ -21,9 +21,12 @@
 *                                                                            *
 ******************************************************************************/
 
+#define DATA_BUFFER_SIZE 64
+uint8_t buffer[DATA_BUFFER_SIZE];
+
 typedef struct {
    Packet mRequest;
-   uint32_t counter;
+   uint32_t counter; 
 } PeripheralHandler;
 
 PeripheralHandler peripheralHandler;
@@ -242,8 +245,6 @@ void PeripheralHandler_DataFunction(PeripheralHandler* self)
 	Packet_End();
 }
 
-// FUNCTIONS INTEDED TO TEST THE HAL LAYER
-
 void PeripheralHandler_SPITestFunction(PeripheralHandler* self)
 {
 	if (self->mRequest.length == 0)
@@ -252,13 +253,18 @@ void PeripheralHandler_SPITestFunction(PeripheralHandler* self)
 		return;
 	}
 	
-	Packet_Start(self->mRequest.code, self->mRequest.length);
-	
-	for (uint16_t n = 0; n < self->mRequest.length; ++n)
+	if (self->mRequest.length > DATA_BUFFER_SIZE)
 	{
-		Packet_SendUint8(self->mRequest.data[n] + 1);
-	}
+		Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR + 1);
+		return;
+	}	
 	
-	Packet_End();	
+	SPI_Start(self->mRequest.length, self->mRequest.data, buffer);
+
+	Packet_Start(self->mRequest.code, self->mRequest.length);
+	Packet_SendData(self->mRequest.length, buffer);
+	Packet_End();
 }
+
+
 
