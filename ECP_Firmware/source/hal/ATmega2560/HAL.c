@@ -8,7 +8,7 @@
 #include <avr/interrupt.h>
 #include <hal/HAL.h>
 #include <hal/DIO.h>
-#include "SPI_Internal.h"
+#include <hal/SPI.h>
 #include <hal/SerialPort.h>
 #include <hal/TimerTick.h>
 #include <sys/DebugSignal.h>

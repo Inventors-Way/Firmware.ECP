@@ -5,7 +5,6 @@
 *  Author: KristianHennings
 */
 #include <hal/SPI.h>
-#include "SPI_Internal.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <sys/System.h>

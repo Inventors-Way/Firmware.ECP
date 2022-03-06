@@ -197,9 +197,6 @@
     <Compile Include="source\hal\ATmega2560\SPI_Implementation.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="source\hal\ATmega2560\SPI_Internal.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="source\hal\ATmega2560\TimerTick.c">
       <SubType>compile</SubType>
     </Compile>

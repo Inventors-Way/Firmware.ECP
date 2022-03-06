@@ -9,6 +9,8 @@
 
 #include <stdint.h>
 
+void SPI_Initialize(void);
+
 void SPI_Start(uint16_t length,
                uint8_t *txData,
                uint8_t *rxData);
