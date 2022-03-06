@@ -13,6 +13,7 @@
  #include "Packet.h"
  #include <string.h>
  #include <hal/DIO.h>
+ #include <hal/SPI.h>
 
 /******************************************************************************
 *                                                                            *
@@ -37,12 +38,16 @@ PeripheralHandler peripheralHandler;
 uint8_t PeripheralHandler_IsRequestAvailable(PeripheralHandler* self);
 
 void PeripheralHandler_DeviceIdentification(PeripheralHandler* self);
-
 void PeripheralHandler_GetEndianness(PeripheralHandler* self);
-
 void PeripheralHandler_Ping(PeripheralHandler* self);
-
 void PeripheralHandler_SetDebugSignals(PeripheralHandler* self);
+
+// FUNCTIONS INTENDED TO DEMONSTRATE HOW TO USE ECP FUNCTIONS
+void PeripheralHandler_SimpleFunction(PeripheralHandler* self);
+void PeripheralHandler_DataFunction(PeripheralHandler* self);
+
+// FUNCTIONS INTEDED TO TEST THE HAL LAYER
+void PeripheralHandler_SPITestFunction(PeripheralHandler* self);
 
 /******************************************************************************
 *                                                                            *
@@ -78,6 +83,17 @@ void PeripheralHandler_Run(void)
          case SET_DEBUG_SIGNAL:
             PeripheralHandler_SetDebugSignals(self);
             break;
+			
+		case SIMPLE_FUNCTION:
+			PeripheralHandler_SimpleFunction(self);
+			break;
+	    case DATA_FUNCTION:
+			PeripheralHandler_DataFunction(self);
+			break;
+			
+		case SPI_TEST_FUNCTION:
+			PeripheralHandler_SPITestFunction(self);
+			break;
 
          default:
             Packet_SendNotAcknowledge(&self->mRequest, UNKNOWN_FUNCTION_ERR);
@@ -192,3 +208,57 @@ void PeripheralHandler_SetDebugSignals(PeripheralHandler* self)
 
    Packet_Acknowledge(&self->mRequest);
 }
+
+// FUNCTIONS INTENDED TO DEMONSTRATE HOW TO USE ECP FUNCTIONS
+
+void PeripheralHandler_SimpleFunction(PeripheralHandler* self)
+{
+	if (self->mRequest.length != sizeof(int32_t))
+	{
+		Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+		return;
+	}	
+	
+	Packet_Start(self->mRequest.code, sizeof(uint32_t));
+	Packet_SendUint32(-Packet_GetInt32(&self->mRequest, 0));
+	Packet_End();	
+}
+
+void PeripheralHandler_DataFunction(PeripheralHandler* self)
+{
+	if (self->mRequest.length == 0)
+	{
+		Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+		return;		
+	}
+	
+	Packet_Start(self->mRequest.code, self->mRequest.length);
+	
+	for (uint16_t n = 0; n < self->mRequest.length; ++n)
+	{
+		Packet_SendUint8(self->mRequest.data[n] + 1);
+	}
+	
+	Packet_End();
+}
+
+// FUNCTIONS INTEDED TO TEST THE HAL LAYER
+
+void PeripheralHandler_SPITestFunction(PeripheralHandler* self)
+{
+	if (self->mRequest.length == 0)
+	{
+		Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+		return;
+	}
+	
+	Packet_Start(self->mRequest.code, self->mRequest.length);
+	
+	for (uint16_t n = 0; n < self->mRequest.length; ++n)
+	{
+		Packet_SendUint8(self->mRequest.data[n] + 1);
+	}
+	
+	Packet_End();	
+}
+
