@@ -12,7 +12,6 @@
 #include "PDebugSignal.h"
 #include <sys/Stopwatch.h>
 #include <sys/SystemConfig.h>
-#include <sys/MemoryPool.h>
 #include <sys/Timer.h>
 #include <hal/DIO.h>
 #include <hal/TimerTick.h>
@@ -56,7 +55,6 @@ void System_Initialize(void)
    Timer_Start(heartbeatTimer, TIMER_PERIODIC, 1000);
 
    System_Printf("ECP Firmware, Rev. %d.%d.%d.%d", MAJOR_REVISION, MINOR_REVISION, PATCH_REVISION, ENGINEERING_REVISION);
-   System_Printf("Memory [ %u bytes ]", MemoryPool_AllocatedMemory());
    System_Printf("Timers [ number = %u ]", Timer_GetNumberOfTimers());
 }
 

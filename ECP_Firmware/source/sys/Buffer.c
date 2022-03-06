@@ -5,7 +5,6 @@
  *  Author: KristianHennings
  */ 
  #include <sys/Buffer.h>
- #include <sys/MemoryPool.h>
 
 /*****************************************************************************
 *                                                                            *
@@ -26,16 +25,14 @@
 *                                                                            *
 ******************************************************************************/
 
-uint8_t Buffer_Create(Buffer* const self, const uint32_t size, const uint32_t elementSize)
+void Buffer_Create(Buffer* const self, void * data, const uint32_t size, const uint32_t elementSize)
 {
     self->size = size;
     self->elementSize = elementSize;
     self->start = 0U;
     self->end = 0U;
     self->count = 0U;
-    self->data = MemoryPool_Allocate(size * elementSize);
-
-    return self->data != 0;
+    self->data = data;
 }
 
 void Buffer_Initialize(Buffer* const self)

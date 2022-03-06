@@ -9,7 +9,6 @@
 #include <sys/Timer.h>
 #include <sys/System.h>
 #include <sys/DebugSignal.h>
-#include <sys/MemoryPool.h>
 
 /******************************************************************************
 *                                                                            *

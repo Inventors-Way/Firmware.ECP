@@ -43,7 +43,7 @@ typedef struct
  * \param elementSize size of each element in the circular buffer
  * \return 1 if successfull, 0U if not
  */
-uint8_t Buffer_Create(Buffer* const self, const uint32_t size, const uint32_t elementSize);
+void Buffer_Create(Buffer* const self, void * data, const uint32_t size, const uint32_t elementSize);
 
 /**
  * \brief Initialize the buffer

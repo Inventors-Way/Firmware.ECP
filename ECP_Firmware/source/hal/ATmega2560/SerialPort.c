@@ -28,6 +28,7 @@
 #define BAUD_PRESCALLER ((F_CPU/16/BAUDRATE) - 1)
 
 Buffer rxBuffer;
+uint8_t rxMemory[RX_BUFFER_SIZE];
 
 /******************************************************************************
  *                                                                            *
@@ -37,7 +38,7 @@ Buffer rxBuffer;
  
 void SerialPort_Initialize(void)
 {
-   Buffer_Create(&rxBuffer, RX_BUFFER_SIZE, sizeof(uint8_t));
+   Buffer_Create(&rxBuffer, rxMemory, RX_BUFFER_SIZE, sizeof(uint8_t));
    Buffer_Initialize(&rxBuffer);
 
    // USART0 initialization

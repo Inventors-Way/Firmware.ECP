@@ -161,9 +161,6 @@
     <Compile Include="include\sys\DebugSignal.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="include\sys\MemoryPool.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="include\sys\Stopwatch.h">
       <SubType>compile</SubType>
     </Compile>
@@ -183,6 +180,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\hal\ATmega2560\HAL.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\hal\ATmega2560\HalDefinitions.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\hal\ATmega2560\HalInternal.h">
@@ -219,9 +219,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\sys\DebugSignal.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="source\sys\MemoryPool.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\sys\PDebugSignal.h">
