@@ -263,8 +263,14 @@ void PeripheralHandler_SPIConfigure(PeripheralHandler* self)
 	const enum SPI_CPHA cpha = (enum SPI_CPHA) Packet_GetUint8(&self->mRequest, 2);
 	const enum SPI_CLK clk = (enum SPI_CLK) Packet_GetUint8(&self->mRequest, 3);
 	
-	
-	Packet_Acknowledge(&self->mRequest);
+	if (SPI_Initialize(dord, cpol, cpha, clk))
+	{
+		Packet_Acknowledge(&self->mRequest);
+	}
+	else
+	{
+		Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR + 1);
+	}
 }
 
 void PeripheralHandler_SPITestFunction(PeripheralHandler* self)

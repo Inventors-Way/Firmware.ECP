@@ -12,6 +12,7 @@
 #include <hal/SerialPort.h>
 #include <hal/TimerTick.h>
 #include <sys/DebugSignal.h>
+#include <sys/System.h>
 
 #include "HalInternal.h"
 
@@ -20,7 +21,11 @@ void HAL_Initialize(void)
    DIO_Initialize();
    TimerTick_Initialize();
    SerialPort_Initialize();
-   SPI_Initialize();
+   
+   if (!SPI_Initialize(DORD_LSB, CPOL0, CPOL0, CLKDIV_02))
+   {
+	   System_HandleFatalError();
+   }
 
    sei();
 }

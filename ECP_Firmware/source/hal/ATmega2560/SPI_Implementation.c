@@ -61,7 +61,10 @@ void SPI_Start(uint16_t length,
 *                                                                            *
 ******************************************************************************/
 
-void SPI_Initialize(void)
+uint8_t SPI_Initialize(const enum SPI_DORD dord,
+                       const enum SPI_CPOL cpol,
+                       const enum SPI_CPHA cpha,
+                       const enum SPI_CLK clk)
 {
 	current = 0U;
 	
@@ -91,8 +94,7 @@ void SPI_Initialize(void)
 	//              1: Sampled on trailing edge
 	// SPR1, SPR0 : SPI Clock Rate Select
 	//              Determine SCL clock rate together with the SPI2X bit in SPSR (see page 197 in the datasheet)
-	SPCR = (0 << SPIE) | (1 << SPE) | (0 << DORD) | (1 << MSTR) | (0 << CPOL) | (0 << CPHA) | (0 << SPR1) | (0 << SPR0);
-	
+	//
 	// SPSR - SPI Status Register
 	//
 	// Bit.   7      6      5   4   3   2   1   0
@@ -100,8 +102,46 @@ void SPI_Initialize(void)
 	//
 	// SPIF  : SPI Interrupt Flag
 	// WCOL  : Write COLision flag
-	// SPI2X : Double SPI Bit
-	SPSR = (1 << SPI2X);
+		
+	SPCR = 0; // Reset the SPI Control Register
+	SPSR = 0; // Reset the SPI Status Register
+	
+	switch (dord)
+	{
+		case DORD_MSB: SPCR |= (1 << DORD); break;
+		case DORD_LSB: SPCR |= (0 << DORD); break;
+		default: return 0;		
+	}
+	
+	switch (cpol)
+	{
+		case CPOL1: SPCR |= (1 << CPOL); break;
+		case CPOL0: SPCR |= (0 << CPOL); break;
+		default: return 0;
+	}
+	
+	switch (cpha)
+	{
+		case CPHA1: SPCR |= (1 << CPHA); break;
+		case CPHA0: SPCR |= (0 << CPHA); break;
+		default: return 0;		
+	}
+	
+	switch (clk)
+	{
+	   case CLKDIV_02:  SPCR |= (0 << SPR1) | (0 << SPR0); SPSR |= (1 << SPI2X); break;
+	   case CLKDIV_04:  SPCR |= (0 << SPR1) | (0 << SPR0); SPSR |= (0 << SPI2X); break;
+	   case CLKDIV_08:  SPCR |= (0 << SPR1) | (1 << SPR0); SPSR |= (1 << SPI2X); break;
+	   case CLKDIV_16:  SPCR |= (0 << SPR1) | (1 << SPR0); SPSR |= (0 << SPI2X); break;
+	   case CLKDIV_32:  SPCR |= (0 << SPR1) | (1 << SPR0); SPSR |= (1 << SPI2X); break;
+	   case CLKDIV_64:  SPCR |= (1 << SPR1) | (1 << SPR0); SPSR |= (1 << SPI2X); break;
+	   case CLKDIV_128: SPCR |= (1 << SPR1) | (1 << SPR0); SPSR |= (0 << SPI2X); break;
+	   default: return 0;
+	}
+	
+	SPCR |= (1 << SPE) | (1 << MSTR);
+	
+	return 1;
 }
 
 /******************************************************************************

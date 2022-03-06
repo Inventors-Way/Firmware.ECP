@@ -38,7 +38,10 @@ enum SPI_CLK
 	CLKDIV_128
 };
 
-void SPI_Initialize(void);
+uint8_t SPI_Initialize(const enum SPI_DORD dord,
+                       const enum SPI_CPOL cpol,
+					   const enum SPI_CPHA cpha,
+					   const enum SPI_CLK clk);
 
 void SPI_Start(uint16_t length,
                uint8_t *txData,
