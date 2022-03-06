@@ -9,16 +9,17 @@
 
 #include <stdint.h>
 
-struct SPIAction
+struct SPI
 {
-	uint8_t length;
+	uint16_t length;
 	uint8_t *rxData;
 	uint8_t *txDate;
+	
+	void (*callback)(void *owner);
+	void *owner;
 };
 
-void SPI_Initialize(void);
-
-uint8_t SPI_Start(struct SPIAction * action);
+uint8_t SPI_Start(struct SPI * action);
 
 
 #endif /* SPI_H_ */

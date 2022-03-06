@@ -8,7 +8,7 @@
 #include <avr/interrupt.h>
 #include <hal/HAL.h>
 #include <hal/DIO.h>
-#include <hal/SPI.h>
+#include "SPI_Internal.h"
 #include <hal/SerialPort.h>
 #include <hal/TimerTick.h>
 #include <sys/DebugSignal.h>
@@ -32,6 +32,7 @@ void HAL_Run(void)
    #endif
 
    TimerTick_Run();
+   SPI_Run();
 
    #ifdef DEBUG
    DebugSignal_Clear(DEBUG_SIGNAL_HAL_RUN);
