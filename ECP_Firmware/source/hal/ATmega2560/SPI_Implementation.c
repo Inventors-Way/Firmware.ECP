@@ -45,6 +45,7 @@ void SPI_Start(uint16_t length,
 	for (uint16_t n = 0; n < length; ++n)
 	{
 		SPDR = txData[n];
+		
 		while (!(SPSR & (1 << SPIF)));
 		
 		if (rxData != 0U)

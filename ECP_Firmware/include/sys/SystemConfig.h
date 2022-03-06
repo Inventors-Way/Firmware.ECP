@@ -47,7 +47,8 @@
 #define DATA_FUNCTION            0x11
 
 // FUNCTIONS INTEDED TO TEST THE HAL LAYER
-#define SPI_TEST_FUNCTION        0x20
+#define SPI_CONFIGURE            0x20
+#define SPI_TEST_FUNCTION        0x21
 
 // MESSAGES
 #define TIMING_MSG               0xFD

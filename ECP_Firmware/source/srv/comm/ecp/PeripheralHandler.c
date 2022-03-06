@@ -50,7 +50,9 @@ void PeripheralHandler_SimpleFunction(PeripheralHandler* self);
 void PeripheralHandler_DataFunction(PeripheralHandler* self);
 
 // FUNCTIONS INTEDED TO TEST THE HAL LAYER
+void PeripheralHandler_SPIConfigure(PeripheralHandler* self);
 void PeripheralHandler_SPITestFunction(PeripheralHandler* self);
+
 
 /******************************************************************************
 *                                                                            *
@@ -94,6 +96,9 @@ void PeripheralHandler_Run(void)
 			PeripheralHandler_DataFunction(self);
 			break;
 			
+		case SPI_CONFIGURE:
+			PeripheralHandler_SPIConfigure(self);
+			break;
 		case SPI_TEST_FUNCTION:
 			PeripheralHandler_SPITestFunction(self);
 			break;
@@ -243,6 +248,23 @@ void PeripheralHandler_DataFunction(PeripheralHandler* self)
 	}
 	
 	Packet_End();
+}
+
+void PeripheralHandler_SPIConfigure(PeripheralHandler* self)
+{
+	if (self->mRequest.length != 4)
+	{
+		Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+		return;
+	}
+	
+	const enum SPI_DORD dord = (enum SPI_DORD) Packet_GetUint8(&self->mRequest, 0);
+	const enum SPI_CPOL cpol = (enum SPI_CPOL) Packet_GetUint8(&self->mRequest, 1);
+	const enum SPI_CPHA cpha = (enum SPI_CPHA) Packet_GetUint8(&self->mRequest, 2);
+	const enum SPI_CLK clk = (enum SPI_CLK) Packet_GetUint8(&self->mRequest, 3);
+	
+	
+	Packet_Acknowledge(&self->mRequest);
 }
 
 void PeripheralHandler_SPITestFunction(PeripheralHandler* self)
