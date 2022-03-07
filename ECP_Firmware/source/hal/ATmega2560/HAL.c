@@ -13,6 +13,7 @@
 #include <hal/TimerTick.h>
 #include <sys/DebugSignal.h>
 #include <sys/System.h>
+#include "ADC_Internal.h"
 
 #include "HalInternal.h"
 
@@ -21,6 +22,7 @@ void HAL_Initialize(void)
    DIO_Initialize();
    TimerTick_Initialize();
    SerialPort_Initialize();
+   ADC_Initialize();
    
    if (!SPI_Initialize(DORD_LSB, CPOL0, CPOL0, CLKDIV_02))
    {
@@ -37,6 +39,7 @@ void HAL_Run(void)
    #endif
 
    TimerTick_Run();
+   ADC_Run();
 
    #ifdef DEBUG
    DebugSignal_Clear(DEBUG_SIGNAL_HAL_RUN);

@@ -137,6 +137,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="include\hal\ADC.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="include\hal\DIO.h">
       <SubType>compile</SubType>
     </Compile>
@@ -174,6 +177,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="include\tools\Stream.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\hal\ATmega2560\ADC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\hal\ATmega2560\ADC_Internal.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\hal\ATmega2560\DIO.c">
