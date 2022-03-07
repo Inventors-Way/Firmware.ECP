@@ -53,6 +53,9 @@ void PeripheralHandler_DataFunction(PeripheralHandler* self);
 void PeripheralHandler_SPIConfigure(PeripheralHandler* self);
 void PeripheralHandler_SPITestFunction(PeripheralHandler* self);
 
+void PeripheralHandler_DIOSetPin(PeripheralHandler* self);
+void PeripheralHandler_DIOGetPin(PeripheralHandler* self);
+
 
 /******************************************************************************
 *                                                                            *
@@ -79,7 +82,7 @@ void PeripheralHandler_Run(void)
          case DEVICE_IDENTIFICATION:
             PeripheralHandler_DeviceIdentification(self);
             break;
-         case PING:
+         case ECP_PING:
             PeripheralHandler_Ping(self);
             break;
          case GET_ENDIANNESS:
@@ -102,6 +105,14 @@ void PeripheralHandler_Run(void)
 		case SPI_TEST_FUNCTION:
 			PeripheralHandler_SPITestFunction(self);
 			break;
+
+      case DIO_SET_PIN:
+         PeripheralHandler_DIOSetPin(self);
+         break;
+
+      case DIO_GET_PIN:
+         PeripheralHandler_DIOGetPin(self);
+         break;
 
          default:
             Packet_SendNotAcknowledge(&self->mRequest, UNKNOWN_FUNCTION_ERR);
@@ -294,5 +305,36 @@ void PeripheralHandler_SPITestFunction(PeripheralHandler* self)
 	Packet_End();
 }
 
+void PeripheralHandler_DIOSetPin(PeripheralHandler* self)
+{
+	if (self->mRequest.length != 2)
+	{
+   	Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+   	return;
+	}
+
+   const enum Pin pin = (enum Pin) Packet_GetUint8(&self->mRequest, 0);
+   const uint8_t value = Packet_GetUint8(&self->mRequest, 1);
+
+   DIO_SetPin(pin, value);
+
+   
+   Packet_Acknowledge(&self->mRequest);
+}
+
+void PeripheralHandler_DIOGetPin(PeripheralHandler* self)
+{
+	if (self->mRequest.length != 1)
+	{
+   	Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+   	return;
+	}
+
+   const enum Pin pin = (enum Pin) Packet_GetUint8(&self->mRequest, 0);
+
+	Packet_Start(self->mRequest.code, 1);
+	Packet_SendUint8(DIO_GetPin(pin));
+	Packet_End();
+}
 
 

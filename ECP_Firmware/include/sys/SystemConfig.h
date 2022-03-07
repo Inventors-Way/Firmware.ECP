@@ -39,7 +39,7 @@
 
 // FUNCTIONS
 #define DEVICE_IDENTIFICATION    0x01
-#define PING                     0x02
+#define ECP_PING                 0x02
 #define GET_ENDIANNESS           0x03
 #define SET_DEBUG_SIGNAL         0x04
 
@@ -50,6 +50,9 @@
 // FUNCTIONS INTEDED TO TEST THE HAL LAYER
 #define SPI_CONFIGURE            0x20
 #define SPI_TEST_FUNCTION        0x21
+
+#define DIO_SET_PIN              0x22
+#define DIO_GET_PIN              0x23
 
 // MESSAGES
 #define TIMING_MSG               0xFD

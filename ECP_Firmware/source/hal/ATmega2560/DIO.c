@@ -62,7 +62,17 @@ void DIO_Initialize(void)
    DDRC =(0<<DDC7)   | (0<<DDC6)   | (0<<DDC5)   | (0<<DDC4)   | (0<<DDC3)   | (0<<DDC2)   | (0<<DDC1)   | (0<<DDC0);
    PORTC=(1<<PORTC7) | (1<<PORTC6) | (1<<PORTC5) | (1<<PORTC4) | (1<<PORTC3) | (1<<PORTC2) | (1<<PORTC1) | (1<<PORTC0);
 
-   // Port D: Unused all configured as inputs with pull-up enabled
+   // Port D: Used for DIO
+   //
+   //      Name           Configuration               Arduino Pin
+   // PD0: PIN_D21        Input (Pull-Up Enabled)    D21
+   // PD1: PIN_D20        Input (Pull-Up Enabled)    D20
+   // PD2: PIN_D19        Input (Pull-Up Enabled)    D19
+   // PD3: PIN_D18        Input (Pull-Up Enabled)    D18
+   // PD4: Unused         Input (Pull-Up Enabled)
+   // PD5: Unused         Input (Pull-Up Enabled)
+   // PD6: Unused         Input (Pull-Up Enabled)
+   // PD7: Unused         Input (Pull-Up Enabled)
    DDRD =(0<<DDD7)   | (0<<DDD6)   | (0<<DDD5)   | (0<<DDD4)   | (0<<DDD3)   | (0<<DDD2)   | (0<<DDD1)   | (0<<DDD0);
    PORTD=(1<<PORTD7) | (1<<PORTD6) | (1<<PORTD5) | (1<<PORTD4) | (1<<PORTD3) | (1<<PORTD2) | (1<<PORTD1) | (1<<PORTD0);
 
@@ -89,13 +99,33 @@ void DIO_Initialize(void)
    DDRG =(1<<DDG5)   | (0<<DDG4)   | (0<<DDG3)   | (0<<DDG2)   | (0<<DDG1)   | (0<<DDG0);
    PORTG=(0<<PORTG5) | (1<<PORTG4) | (1<<PORTG3) | (1<<PORTG2) | (1<<PORTG1) | (1<<PORTG0);
 
-   // Port H: Unused all configured as inputs with pull-up enabled
-   DDRH =(0<<DDH7)   | (0<<DDH6)   | (0<<DDH5)   | (0<<DDH4)   | (0<<DDH3)   | (0<<DDH2)   | (0<<DDH1)   | (0<<DDH0);
-   PORTH=(1<<PORTH7) | (1<<PORTH6) | (1<<PORTH5) | (1<<PORTH4) | (1<<PORTH3) | (1<<PORTH2) | (1<<PORTH1) | (1<<PORTH0);
+   // Port H: Used for DIO
+   //
+   //      Name           Configuration               Arduino Pin
+   // PH0: PIN_D14        Output(LOW)                 D16
+   // PH1: PIN_D15        Output (LOW)                D17
+   // PH2: Unused         Input (Pull-Up Enabled)
+   // PH3: Unused         Input (Pull-Up Enabled)
+   // PH4: Unused         Input (Pull-Up Enabled)
+   // PH5: Unused         Input (Pull-Up Enabled)
+   // PH6: Unused         Input (Pull-Up Enabled)
+   // PH7: Unused         Input (Pull-Up Enabled)
+   DDRH =(0<<DDH7)   | (0<<DDH6)   | (0<<DDH5)   | (0<<DDH4)   | (0<<DDH3)   | (0<<DDH2)   | (1<<DDH1)   | (1<<DDH0);
+   PORTH=(1<<PORTH7) | (1<<PORTH6) | (1<<PORTH5) | (1<<PORTH4) | (1<<PORTH3) | (1<<PORTH2) | (0<<PORTH1) | (0<<PORTH0);
 
-   // Port J: Unused all configured as inputs with pull-up enabled
-   DDRJ =(0<<DDJ7)   | (0<<DDJ6)   | (0<<DDJ5)   | (0<<DDJ4)   | (0<<DDJ3)   | (0<<DDJ2)   | (0<<DDJ1)   | (0<<DDJ0);
-   PORTJ=(1<<PORTJ7) | (1<<PORTJ6) | (1<<PORTJ5) | (1<<PORTJ4) | (1<<PORTJ3) | (1<<PORTJ2) | (1<<PORTJ1) | (1<<PORTJ0);
+   // Port J: Used for DIO
+   //
+   //      Name           Configuration               Arduino Pin
+   // PJ0: PIN_D14        Output(LOW)                 D14
+   // PJ1: PIN_D15        Output (LOW)                D15
+   // PJ2: Unused         Input (Pull-Up Enabled)
+   // PJ3: Unused         Input (Pull-Up Enabled)     
+   // PJ4: Unused         Input (Pull-Up Enabled)     
+   // PJ5: Unused         Input (Pull-Up Enabled)     
+   // PJ6: Unused         Input (Pull-Up Enabled)
+   // PJ7: Unused         Input (Pull-Up Enabled)
+   DDRJ =(0<<DDJ7)   | (0<DDJ6)    | (0<<DDJ5)   | (0<<DDJ4)   | (0<<DDJ3)   | (0<<DDJ2)   | (1<<DDJ1)   | (1<<DDJ0);
+   PORTJ=(1<<PORTJ7) | (1<<PORTJ6) | (1<<PORTJ5) | (1<<PORTJ4) | (1<<PORTJ3) | (1<<PORTJ2) | (0<<PORTJ1) | (0<<PORTJ0);
 
    // Port K: Unused all configured as inputs with pull-up enabled
    DDRK =(0<<DDK7)   | (0<<DDK6)   | (0<<DDK5)   | (0<<DDK4)   | (0<<DDK3)   | (0<<DDK2)   | (0<<DDK1)   | (0<<DDK0);
@@ -108,43 +138,57 @@ void DIO_Initialize(void)
 
 void DIO_SetPin(const enum Pin pin, const uint8_t value)
 {
+   if (pin < PIN_EOL)
+   {
+      pin_states[pin] = value;
+   }
+	
    if (value)
    {
       switch (pin)
       {      
-         case PIN_DEBUG_OUT01:
-            PORTB |= (1 << PB7);
-            pin_states[pin] = 1;
-            break;
-         case PIN_DEBUG_OUT02:
-            PORTB |= (1 << PB6);
-            pin_states[pin] = 1;
-            break;
-         default:
-            break;
+	      case PIN_D14: D14_HIGH(); break;
+	      case PIN_D15: D15_HIGH(); break;
+	      case PIN_D16: D16_HIGH(); break;
+	      case PIN_D17: D17_HIGH(); break;
+
+         case PIN_DEBUG_OUT01: PORTB |= (1 << PB7); break;
+         case PIN_DEBUG_OUT02: PORTB |= (1 << PB6); break;
+         default: break;
       }
    }
    else
    {
       switch (pin)
       {
-         case PIN_DEBUG_OUT01:
-            PORTB &= ~(1 << PB7);
-            pin_states[pin] = 0;
-            break;
-         case PIN_DEBUG_OUT02:
-            PORTB &= ~(1 << PB6);
-            pin_states[pin] = 0;
-            break;
-         default:
-            break;
+	      case PIN_D14: D14_LOW(); break;
+	      case PIN_D15: D15_LOW(); break;
+	      case PIN_D16: D16_LOW(); break;
+	      case PIN_D17: D17_LOW(); break;
+         case PIN_DEBUG_OUT01: PORTB &= ~(1 << PB7); break;
+         case PIN_DEBUG_OUT02: PORTB &= ~(1 << PB6); break;
+         default: break;
       }
    }
 }
 
 uint8_t DIO_GetPin(const enum Pin pin)
 {
-   return pin_states[pin];
+	switch (pin)
+	{
+	   case PIN_D14: return pin_states[pin];
+	   case PIN_D15: return pin_states[pin];
+	   case PIN_D16: return pin_states[pin];
+	   case PIN_D17: return pin_states[pin];
+	   case PIN_D18: return D18_READ();
+	   case PIN_D19: return D19_READ();
+	   case PIN_D20: return D20_READ();
+	   case PIN_D21: return D21_READ();
+	   case PIN_DEBUG_OUT01: return pin_states[pin];
+	   case PIN_DEBUG_OUT02: return pin_states[pin];
+      default:
+         return 0;
+	}
 }
 
 enum Pin DIO_GetDebugPin(const uint8_t number)

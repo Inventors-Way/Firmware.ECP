@@ -9,9 +9,43 @@
 
 #include <stdint.h>
 
+#ifdef AVR
+
+#include <avr/io.h>
+
+#define D14_HIGH()   PORTJ  |=  _BV(PJ1)
+#define D14_LOW()    PORTJ  &= ~_BV(PJ1)
+#define D15_HIGH()   PORTJ  |=  _BV(PJ0)
+#define D15_LOW()    PORTJ  &= ~_BV(PJ0)
+#define D16_HIGH()   PORTH  |=  _BV(PH1)
+#define D16_LOW()    PORTH  &= ~_BV(PH1)
+#define D17_HIGH()   PORTH  |=  _BV(PH0)
+#define D17_LOW()    PORTH  &= ~_BV(PH0)
+
+#define D18_READ()   ((PIND & (1 << PIND3)) != 0) 
+#define D19_READ()   ((PIND & (1 << PIND2)) != 0) 
+#define D20_READ()   ((PIND & (1 << PIND1)) != 0) 
+#define D21_READ()   ((PIND & (1 << PIND0)) != 0) 
+
+#endif
+#ifdef WIN32
+
+#endif
+
 enum Pin
 {
-	PIN_DEBUG_OUT01 = 0,     ///< Debug Diode (PB7) [Arduino: D13 ]
+	// Public DIOs
+	PIN_D14 = 0,
+	PIN_D15,
+	PIN_D16,
+	PIN_D17,
+	PIN_D18,
+	PIN_D19,
+	PIN_D20,
+	PIN_D21,
+	
+	// Internal DIOs used by ECP
+	PIN_DEBUG_OUT01,     ///< Debug Diode (PB7) [Arduino: D13 ]
     PIN_DEBUG_OUT02,         ///< Debug Diode (PB6) [Arduino: D12 ]
 	PIN_EOL
 };
