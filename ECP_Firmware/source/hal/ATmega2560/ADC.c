@@ -16,6 +16,51 @@ uint16_t ADC_Sample(const uint8_t pin);
 
 uint16_t channels[CHAN_MAX_CHANNELS];
 
+inline void ADC_SetChannel(const uint8_t pin)
+{
+   ADMUX = (pin & 0x07) | ADC_VREF_TYPE;     //0x1f
+
+   if (pin & 0x08)
+   {
+      ADCSRB |= (1<<MUX5);  //0x20
+   }
+   else
+   {
+      ADCSRB &= ~(1<<MUX5);
+   }   
+}
+
+inline uint8_t ADC_GetPinNumber(const enum AnalogChannel channel)
+{
+   switch (channel)
+   {
+      case CHAN01: return 0;
+      case CHAN02: return 1;
+      case CHAN03: return 3;
+      case CHAN04: return 4;
+      default: return 0; break;
+   }   
+}
+
+inline enum AnalogChannel ADC_GetNextChannel(enum AnalogChannel current)
+{
+   ++current;      
+   return current == CHAN_MAX_CHANNELS ? CHAN01 : current;
+}
+
+inline uint16_t ADC_Sample(const uint8_t pin)
+{
+   // Start the AD conversion
+   ADCSRA |= (1<<ADSC);
+   // Wait for the AD conversion to complete
+   while ((ADCSRA & (1<<ADIF))==0);
+   ADCSRA|=(1<<ADIF);
+   return ADC;
+}
+
+enum AnalogChannel activeChannel;
+uint8_t activePin;
+
 /******************************************************************************
  *                                                                            *
  *                       Public Function Implementation                       *
@@ -40,7 +85,14 @@ void ADC_Initialize(void)
    ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (1<<ADPS1) | (0<<ADPS0);
    ADCSRB=(0<<MUX5) | (0<<ADTS2) | (0<<ADTS1) | (0<<ADTS0);
 
-   ADC_Run();
+   activeChannel = CHAN01;
+   activePin = ADC_GetPinNumber(activeChannel);
+   ADC_SetChannel(activePin);
+   
+   for (uint8_t n = 0; n < CHAN_MAX_CHANNELS; ++n)
+   {
+      channels[n] = 0;
+   }
 }
 
 uint16_t ADC_GetValue(const enum AnalogChannel channel)
@@ -50,12 +102,11 @@ uint16_t ADC_GetValue(const enum AnalogChannel channel)
 
 void ADC_Run()
 {
-	channels[CHAN01] = ADC_Sample(0);
-	channels[CHAN02] = ADC_Sample(1);
-	channels[CHAN03] = ADC_Sample(2);
-	channels[CHAN04] = ADC_Sample(3);
+   channels[activeChannel] = ADC_Sample(activePin);
+   activeChannel = ADC_GetNextChannel(activeChannel);
+   activePin = ADC_GetPinNumber(activeChannel);
+   ADC_SetChannel(activePin);
 }
-
 
 /******************************************************************************
  *                                                                            *
@@ -63,26 +114,4 @@ void ADC_Run()
  *                                                                            *
  ******************************************************************************/
 
- uint16_t ADC_Sample(const uint8_t pin)
- {
-    ADMUX = (pin & 0x07) | ADC_VREF_TYPE;     //0x1f
-
-    if (pin & 0x08) 
-    {
-       ADCSRB |= (1<<MUX5);  //0x20
-    }
-    else 
-    {
-       ADCSRB &= ~(1<<MUX5);
-    }
-
-    // Delay needed for the stabilization of the ADC input voltage
-    _delay_us(10); //10
-    // Start the AD conversion
-    ADCSRA |= (1<<ADSC);
-    // Wait for the AD conversion to complete
-    while ((ADCSRA & (1<<ADIF))==0);
-    ADCSRA|=(1<<ADIF);
-    return ADC;
- }
 
