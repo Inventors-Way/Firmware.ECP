@@ -38,9 +38,17 @@ uint8_t DIO_SamplePin(const enum Pin pin);
 
 void DIO_Initialize(void)
 {
-   // Port A: Unused, all configured as inputs with pull-up enabled.
+   // Port A: Unused
    //
    //      Name           Configuration               Arduino Pin
+   // PA0: Unused         Input (Pull-Up Enabled)
+   // PA1: Unused         Input (Pull-Up Enabled)
+   // PA2: Unused         Input (Pull-Up Enabled)
+   // PA3: Unused         Input (Pull-Up Enabled)
+   // PA4: Unused         Input (Pull-Up Enabled)
+   // PA5: Unused         Input (Pull-Up Enabled)
+   // PA6: Unused         Input (Pull-Up Enabled)
+   // PA7: Unused         Input (Pull-Up Enabled)
    DDRA  = (0<<DDA7)   | (0<<DDA6)   | (0<<DDA5)   | (0<<DDA4)   | (0<<DDA3)   | (0<<DDA2)   | (0<<DDA1)   | (0<<DDA0);
    PORTA = (1<<PORTA7) | (1<<PORTA6) | (1<<PORTA5) | (1<<PORTA4) | (1<<PORTA3) | (1<<PORTA2) | (1<<PORTA1) | (1<<PORTA0);
 
@@ -90,14 +98,33 @@ void DIO_Initialize(void)
    DDRE =(0<<DDE7)   | (0<<DDE6)   | (0<<DDE5)   | (0<<DDE4)   | (0<<DDE3)   | (0<<DDE2)   | (1<<DDE1)   | (0<<DDE0);
    PORTE=(1<<PORTE7) | (1<<PORTE6) | (0<<PORTE5) | (1<<PORTE4) | (1<<PORTE3) | (1<<PORTE2) | (1<<PORTE1) | (0<<PORTE0);
 
-   // Port F: Unused all configured as inputs with pull-up enabled
+   // Port F: Unused
+   //
+   //      Name           Configuration               Arduino Pin
+   // PF0: Unused         Input (Pull-Up Enabled)
+   // PF1: Unused         Input (Pull-Up Enabled)
+   // PF2: Unused         Input (Pull-Up Enabled)
+   // PF3: Unused         Input (Pull-Up Enabled)
+   // PF4: Unused         Input (Pull-Up Enabled)
+   // PF5: Unused         Input (Pull-Up Enabled)
+   // PF6: Unused         Input (Pull-Up Enabled)
+   // PF7: Unused         Input (Pull-Up Enabled)   
    DDRF =(0<<DDF7)   | (0<<DDF6)   | (0<<DDF5)   | (0<<DDF4)   | (0<<DDF3)   | (0<<DDF2)   | (0<<DDF1)   | (0<<DDF0);
    PORTF=(1<<PORTF7) | (1<<PORTF6) | (1<<PORTF5) | (1<<PORTF4) | (1<<PORTF3) | (1<<PORTF2) | (1<<PORTF1) | (1<<PORTF0);
 
-   // Port G: Unused all configured as inputs with pull-up enabled
-   // PG5:   Front panel LED   Output, Default Low
-   DDRG =(1<<DDG5)   | (0<<DDG4)   | (0<<DDG3)   | (0<<DDG2)   | (0<<DDG1)   | (0<<DDG0);
-   PORTG=(0<<PORTG5) | (1<<PORTG4) | (1<<PORTG3) | (1<<PORTG2) | (1<<PORTG1) | (1<<PORTG0);
+   // Port G: Unused
+   //
+   //      Name           Configuration               Arduino Pin
+   // PG0: Unused         Input (Pull-Up Enabled)
+   // PG1: Unused         Input (Pull-Up Enabled)
+   // PG2: Unused         Input (Pull-Up Enabled)
+   // PG3: Unused         Input (Pull-Up Enabled)
+   // PG4: Unused         Input (Pull-Up Enabled)
+   // PG5: Unused         Input (Pull-Up Enabled)
+   // PG6: Unused         Input (Pull-Up Enabled)
+   // PG7: Unused         Input (Pull-Up Enabled)
+   DDRG =(0<<DDG5)   | (0<<DDG4)   | (0<<DDG3)   | (0<<DDG2)   | (0<<DDG1)   | (0<<DDG0);
+   PORTG=(1<<PORTG5) | (1<<PORTG4) | (1<<PORTG3) | (1<<PORTG2) | (1<<PORTG1) | (1<<PORTG0);
 
    // Port H: Used for DIO
    //
@@ -127,11 +154,31 @@ void DIO_Initialize(void)
    DDRJ =(0<<DDJ7)   | (0<DDJ6)    | (0<<DDJ5)   | (0<<DDJ4)   | (0<<DDJ3)   | (0<<DDJ2)   | (1<<DDJ1)   | (1<<DDJ0);
    PORTJ=(1<<PORTJ7) | (1<<PORTJ6) | (1<<PORTJ5) | (1<<PORTJ4) | (1<<PORTJ3) | (1<<PORTJ2) | (0<<PORTJ1) | (0<<PORTJ0);
 
-   // Port K: Unused all configured as inputs with pull-up enabled
+   // Port K: Unused
+   //
+   //      Name           Configuration               Arduino Pin
+   // PK0: Unused         Input (Pull-Up Enabled)
+   // PK1: Unused         Input (Pull-Up Enabled)
+   // PK2: Unused         Input (Pull-Up Enabled)
+   // PK3: Unused         Input (Pull-Up Enabled)
+   // PK4: Unused         Input (Pull-Up Enabled)
+   // PK5: Unused         Input (Pull-Up Enabled)
+   // PK6: Unused         Input (Pull-Up Enabled)
+   // PK7: Unused         Input (Pull-Up Enabled)
    DDRK =(0<<DDK7)   | (0<<DDK6)   | (0<<DDK5)   | (0<<DDK4)   | (0<<DDK3)   | (0<<DDK2)   | (0<<DDK1)   | (0<<DDK0);
    PORTK=(1<<PORTK7) | (0<<PORTK6) | (0<<PORTK5) | (0<<PORTK4) | (1<<PORTK3) | (1<<PORTK2) | (1<<PORTK1) | (1<<PORTK0);
 
-   // Port L: Unused all configured as inputs with pull-up enabled
+   // Port L: Unused
+   //
+   //      Name           Configuration               Arduino Pin
+   // PL0: Unused         Input (Pull-Up Enabled)
+   // PL1: Unused         Input (Pull-Up Enabled)
+   // PL2: Unused         Input (Pull-Up Enabled)
+   // PL3: Unused         Input (Pull-Up Enabled)
+   // PL4: Unused         Input (Pull-Up Enabled)
+   // PL5: Unused         Input (Pull-Up Enabled)
+   // PL6: Unused         Input (Pull-Up Enabled)
+   // PL7: Unused         Input (Pull-Up Enabled)
    DDRL =(0<<DDL7)   | (0<<DDL6)   | (0<<DDL5)   | (0<<DDL4)   | (0<<DDL3)   | (0<<DDL2)   | (0<<DDL1)   | (0<<DDL0);
    PORTL=(1<<PORTL7) | (1<<PORTL6) | (1<<PORTL5) | (1<<PORTL4) | (1<<PORTL3) | (1<<PORTL2) | (1<<PORTL1) | (1<<PORTL0);   
 }
