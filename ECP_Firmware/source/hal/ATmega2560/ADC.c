@@ -10,7 +10,7 @@
  *                                                                            *
  ******************************************************************************/
 
-#define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (0<<ADLAR))
+#define ADC_VREF_TYPE ((0<<REFS1) | (1<<REFS0) | (0<<ADLAR))
 
 uint16_t ADC_Sample(const uint8_t pin);
 
@@ -51,6 +51,9 @@ uint16_t ADC_GetValue(const enum AnalogChannel channel)
 void ADC_Run()
 {
 	channels[CHAN01] = ADC_Sample(0);
+	channels[CHAN02] = ADC_Sample(1);
+	channels[CHAN03] = ADC_Sample(2);
+	channels[CHAN04] = ADC_Sample(3);
 }
 
 

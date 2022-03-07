@@ -54,6 +54,8 @@
 #define DIO_SET_PIN              0x22
 #define DIO_GET_PIN              0x23
 
+#define ADC_SAMPLE               0x24
+
 // MESSAGES
 #define TIMING_MSG               0xFD
 #define TIMING_VIOLATION_MSG     0xFE

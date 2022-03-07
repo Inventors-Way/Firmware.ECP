@@ -13,7 +13,7 @@ enum AnalogChannel
 	CHAN02,
 	CHAN03,
 	CHAN04,
-    CHAN_MAX_CHANNELS
+   CHAN_MAX_CHANNELS
 };
 
 /**

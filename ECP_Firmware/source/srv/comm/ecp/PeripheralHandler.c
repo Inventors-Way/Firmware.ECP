@@ -4,16 +4,17 @@
  * Created: 14-04-2021 13:05:05
  *  Author: KristianHennings
  */ 
- #include <hal/SerialPort.h>
- #include <sys/SystemConfig.h>
- #include <sys/Timer.h>
- #include <sys/System.h>
- #include <sys/DebugSignal.h>
- #include <srv/comm/ecp/PeripheralHandler.h>
- #include "Packet.h"
- #include <string.h>
- #include <hal/DIO.h>
- #include <hal/SPI.h>
+#include <hal/SerialPort.h>
+#include <sys/SystemConfig.h>
+#include <sys/Timer.h>
+#include <sys/System.h>
+#include <sys/DebugSignal.h>
+#include <srv/comm/ecp/PeripheralHandler.h>
+#include "Packet.h"
+#include <string.h>
+#include <hal/DIO.h>
+#include <hal/SPI.h>
+#include <hal/ADC.h>
 
 /******************************************************************************
 *                                                                            *
@@ -56,6 +57,7 @@ void PeripheralHandler_SPITestFunction(PeripheralHandler* self);
 void PeripheralHandler_DIOSetPin(PeripheralHandler* self);
 void PeripheralHandler_DIOGetPin(PeripheralHandler* self);
 
+void PeripheralHandler_ADCSample(PeripheralHandler* self);
 
 /******************************************************************************
 *                                                                            *
@@ -112,6 +114,10 @@ void PeripheralHandler_Run(void)
 
       case DIO_GET_PIN:
          PeripheralHandler_DIOGetPin(self);
+         break;
+
+      case ADC_SAMPLE:
+         PeripheralHandler_ADCSample(self);
          break;
 
          default:
@@ -337,4 +343,18 @@ void PeripheralHandler_DIOGetPin(PeripheralHandler* self)
 	Packet_End();
 }
 
+void PeripheralHandler_ADCSample(PeripheralHandler* self)
+{
+	if (self->mRequest.length != 1)
+	{
+   	Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+   	return;
+	}
+
+	const enum Pin pin = (enum AnalogChannel) Packet_GetUint8(&self->mRequest, 0);
+
+	Packet_Start(self->mRequest.code, sizeof(uint16_t));
+	Packet_SendUint16(ADC_GetValue(pin));
+	Packet_End();
+}
 
