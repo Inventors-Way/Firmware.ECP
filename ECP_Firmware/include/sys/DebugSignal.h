@@ -40,14 +40,6 @@ void DebugSignal_Clear(const enum DebugSignal signal);
 
 void DebugSignal_SetActive(const enum DebugSignal* signal);
 
-#ifdef DEBUG
-#define DEBUG_SIGNAL_SET(signal) DebugSignal_Set(signal);
-#define DEBUG_SIGNAL_CLEAR(signal) DebugSignal_Clear(signal);
-#elif
-#define DEBUG_SIGNAL_SET(signal)
-#define DEBUG_SIGNAL_CLEAR(signal) 
-#endif
-
 /** @} */	
 
 #endif /* DEBUGSIGNAL_H_ */

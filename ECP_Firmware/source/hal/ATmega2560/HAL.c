@@ -34,8 +34,14 @@ void HAL_Initialize(void)
 
 void HAL_Run(void)
 {
-   DEBUG_SIGNAL_SET(DEBUG_SIGNAL_HAL_RUN)
+   #ifdef DEBUG
+   DebugSignal_Set(DEBUG_SIGNAL_HAL_RUN);
+   #endif
+   
    TimerTick_Run();
    ADC_Run();
-   DEBUG_SIGNAL_CLEAR(DEBUG_SIGNAL_HAL_RUN)
+   
+   #ifdef DEBUG
+   DebugSignal_Clear(DEBUG_SIGNAL_HAL_RUN);
+   #endif
 }

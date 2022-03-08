@@ -78,9 +78,15 @@ void Timer_Run(void)
    {
       if (Timer_Check(n))
       {
-         DEBUG_SIGNAL_SET(timers[n].signal)
+         #ifdef DEBUG
+         DebugSignal_Set(timers[n].signal);
+         #endif
+         
          timers[n].func(timers[n].owner);
-         DEBUG_SIGNAL_CLEAR(timers[n].signal)
+         
+         #ifdef DEBUG
+         DebugSignal_Clear(timers[n].signal);
+         #endif
       } 
    }
 }

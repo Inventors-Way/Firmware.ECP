@@ -227,6 +227,7 @@ void PeripheralHandler_SetDebugSignals(PeripheralHandler* self)
    {
       const enum DebugSignal signal = Packet_GetUint32(&self->mRequest, n * sizeof(uint32_t));
       signals[n] = signal < DEBUG_SIGNAL_EOL ? signal : DEBUG_SIGNAL_NONE;
+      System_Printf("DS [ %d => sig: %d", n, signal);
    }
 
    DebugSignal_SetActive(signals);

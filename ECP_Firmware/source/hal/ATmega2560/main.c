@@ -17,10 +17,16 @@ int main(void)
 
    while (1)
    {      
-      DEBUG_SIGNAL_SET(DEBUG_SIGNAL_POLLING_LOOP)   
+      #ifdef DEBUG
+      DebugSignal_Set(DEBUG_SIGNAL_POLLING_LOOP);
+      #endif
+      
       HAL_Run();
       System_Run();
-      DEBUG_SIGNAL_CLEAR(DEBUG_SIGNAL_POLLING_LOOP)
+      
+      #ifdef DEBUG
+      DebugSignal_Clear(DEBUG_SIGNAL_POLLING_LOOP);
+      #endif
    }
 }
 
