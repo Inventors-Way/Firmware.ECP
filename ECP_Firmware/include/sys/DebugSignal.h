@@ -20,13 +20,16 @@
 enum DebugSignal
 {
    DEBUG_SIGNAL_NONE = 0,
-	DEBUG_SIGNAL_POLLING_LOOP, // 1
-   DEBUG_SIGNAL_HAL_RUN, // 2
-   DEBUG_SIGNAL_SYSTEM_RUN, // 3
+	DEBUG_SIGNAL_POLLING_LOOP, 
+   DEBUG_SIGNAL_HAL_RUN, 
+   DEBUG_SIGNAL_SYSTEM_RUN, 
 
+   // PROGRAM SEGMENTS
+   DEBUG_SIGNAL_ADC_SAMPLE, 
+   
 	// TIMERS
-	DEBUG_SIGNAL_TIMER_DEBUG_SIGNAL, // 4
-   DEBUG_SIGNAL_TIMER_HEARTBEAT, // 5
+	DEBUG_SIGNAL_TIMER_DEBUG_SIGNAL, 
+   DEBUG_SIGNAL_TIMER_HEARTBEAT, 
 
    DEBUG_SIGNAL_EOL
 };
@@ -36,6 +39,14 @@ void DebugSignal_Set(const enum DebugSignal signal);
 void DebugSignal_Clear(const enum DebugSignal signal);
 
 void DebugSignal_SetActive(const enum DebugSignal* signal);
+
+#ifdef DEBUG
+#define DEBUG_SIGNAL_SET(signal) DebugSignal_Set(signal);
+#define DEBUG_SIGNAL_CLEAR(signal) DebugSignal_Clear(signal);
+#elif
+#define DEBUG_SIGNAL_SET(signal)
+#define DEBUG_SIGNAL_CLEAR(signal) 
+#endif
 
 /** @} */	
 

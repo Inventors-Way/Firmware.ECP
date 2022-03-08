@@ -60,16 +60,10 @@ void System_Initialize(void)
 
 void System_Run(void)
 {
-   #ifdef DEBUG
-   DebugSignal_Set(DEBUG_SIGNAL_SYSTEM_RUN);
-   #endif
-
+   DEBUG_SIGNAL_SET(DEBUG_SIGNAL_SYSTEM_RUN)
    Timer_Run();
    PeripheralHandler_Run();
-
-   #ifdef DEBUG
-   DebugSignal_Clear(DEBUG_SIGNAL_SYSTEM_RUN);
-   #endif
+   DEBUG_SIGNAL_SET(DEBUG_SIGNAL_SYSTEM_RUN)
 }
 
 void System_Printf(const char* format, ...)
