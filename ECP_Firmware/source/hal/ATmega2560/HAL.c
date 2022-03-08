@@ -24,7 +24,7 @@ void HAL_Initialize(void)
    SerialPort_Initialize();
    ADC_Initialize();
    
-   if (!SPI_Initialize(DORD_LSB, CPOL0, CPOL0, CLKDIV_02))
+   if (!SPI_Initialize(DORD_MSB, CPOL1, CPHA0, CLKDIV_02))
    {
 	   System_HandleFatalError();
    }

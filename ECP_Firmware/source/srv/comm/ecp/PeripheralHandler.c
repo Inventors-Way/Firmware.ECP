@@ -15,6 +15,7 @@
 #include <hal/DIO.h>
 #include <hal/SPI.h>
 #include <hal/ADC.h>
+#include <drv/MCP48X2.h>
 
 /******************************************************************************
 *                                                                            *
@@ -58,6 +59,9 @@ void PeripheralHandler_DIOSetPin(PeripheralHandler* self);
 void PeripheralHandler_DIOGetPin(PeripheralHandler* self);
 
 void PeripheralHandler_ADCSample(PeripheralHandler* self);
+
+// FUNCTIONS INTENDED TO TEST DEVICE DRIVERS
+void PeripheralHandler_MCP48X2Update(PeripheralHandler* self);
 
 /******************************************************************************
 *                                                                            *
@@ -119,6 +123,10 @@ void PeripheralHandler_Run(void)
       case ADC_SAMPLE:
          PeripheralHandler_ADCSample(self);
          break;
+         
+      case MCP48X2_UPDATE:
+         PeripheralHandler_MCP48X2Update(self);
+         break;
 
          default:
             Packet_SendNotAcknowledge(&self->mRequest, UNKNOWN_FUNCTION_ERR);
@@ -144,7 +152,6 @@ void PeripheralHandler_Printf(char* str)
    Packet_SendData(length, (uint8_t *) str);
    Packet_End();
 }
-
 
  /******************************************************************************
  *                                                                            *
@@ -359,3 +366,18 @@ void PeripheralHandler_ADCSample(PeripheralHandler* self)
 	Packet_End();
 }
 
+void PeripheralHandler_MCP48X2Update(PeripheralHandler* self)
+{
+	if (self->mRequest.length != 4)
+	{
+   	Packet_SendNotAcknowledge(&self->mRequest, INVALID_CONTENT_ERR);
+   	return;
+	}
+   
+   const uint16_t ch01 = Packet_GetUint16(&self->mRequest, 0);
+   const uint16_t ch02 = Packet_GetUint16(&self->mRequest, 2);
+   
+   MCP48X2_Update(ch01, ch02);
+   
+   Packet_Acknowledge(&self->mRequest);
+}

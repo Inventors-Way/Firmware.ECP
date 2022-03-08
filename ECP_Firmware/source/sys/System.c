@@ -15,6 +15,7 @@
 #include <sys/Timer.h>
 #include <hal/DIO.h>
 #include <hal/TimerTick.h>
+#include <drv/DRV.h>
 #include <srv/comm/ecp/PeripheralHandler.h>
 #include "PTimer.h"
 
@@ -47,6 +48,7 @@ uint8_t heartbeatTimer;
 
 void System_Initialize(void)
 {
+   DRV_Initialize();
    Timer_Initialize();
    DebugSignal_Initialize();
    PeripheralHandler_Initialize();

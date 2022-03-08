@@ -38,6 +38,18 @@ inline uint8_t ADC_GetPinNumber(const enum AnalogChannel channel)
       case CHAN02: return 1;
       case CHAN03: return 3;
       case CHAN04: return 4;
+      case CHAN05: return 5;
+      case CHAN06: return 6;
+      case CHAN07: return 7;
+      case CHAN08: return 8;
+      case CHAN09: return 9;
+      case CHAN10: return 10;
+      case CHAN11: return 11;
+      case CHAN12: return 12;
+      case CHAN13: return 13;
+      case CHAN14: return 14;
+      case CHAN15: return 15;
+      case CHAN16: return 16;
       default: return 0; break;
    }   
 }

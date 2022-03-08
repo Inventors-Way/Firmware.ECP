@@ -47,7 +47,7 @@
 #define SIMPLE_FUNCTION          0x10
 #define DATA_FUNCTION            0x11
 
-// FUNCTIONS INTEDED TO TEST THE HAL LAYER
+// FUNCTIONS INTENDED TO TEST THE HAL LAYER
 #define SPI_CONFIGURE            0x20
 #define SPI_TEST_FUNCTION        0x21
 
@@ -55,6 +55,9 @@
 #define DIO_GET_PIN              0x23
 
 #define ADC_SAMPLE               0x24
+
+// FUNCTIONS INTENDED TO TEST DEVICE DRIVERS
+#define MCP48X2_UPDATE           0x30
 
 // MESSAGES
 #define TIMING_MSG               0xFD

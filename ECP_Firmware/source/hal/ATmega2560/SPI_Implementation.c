@@ -102,8 +102,8 @@ uint8_t SPI_Initialize(const enum SPI_DORD dord,
 	
 	switch (dord)
 	{
-		case DORD_MSB: SPCR |= (1 << DORD); break;
-		case DORD_LSB: SPCR |= (0 << DORD); break;
+		case DORD_MSB: SPCR |= (0 << DORD); break;
+		case DORD_LSB: SPCR |= (1 << DORD); break;
 		default: return 0;		
 	}
 	
