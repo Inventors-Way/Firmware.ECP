@@ -1,37 +1,38 @@
 /*
- * DebugSignal.h
- *
- * Created: 14-04-2021 14:39:54
- *  Author: KristianHennings
- */ 
+* DebugSignal.h
+*
+* Created: 14-04-2021 14:39:54
+*  Author: KristianHennings
+*/
 
 
 #ifndef DEBUGSIGNAL_H_
 #define DEBUGSIGNAL_H_
 
 /** \addtogroup DebugSignal
- *  @{
- */
+*  @{
+*/
 
 /**
- * @brief 
- * 
- */
+* @brief
+*
+*/
 enum DebugSignal
 {
-   DEBUG_SIGNAL_NONE = 0,
-	DEBUG_SIGNAL_POLLING_LOOP, 
-   DEBUG_SIGNAL_HAL_RUN, 
-   DEBUG_SIGNAL_SYSTEM_RUN, 
+	DEBUG_SIGNAL_NONE = 0,
+	DEBUG_SIGNAL_POLLING_LOOP,
+	DEBUG_SIGNAL_HAL_RUN,
+	DEBUG_SIGNAL_SYSTEM_RUN,
 
-   // PROGRAM SEGMENTS
-   DEBUG_SIGNAL_ADC_SAMPLE, 
-   
+	// PROGRAM SEGMENTS
+	DEBUG_SIGNAL_ADC_SAMPLE,
+	
 	// TIMERS
-	DEBUG_SIGNAL_TIMER_DEBUG_SIGNAL, 
-   DEBUG_SIGNAL_TIMER_HEARTBEAT, 
+	DEBUG_SIGNAL_TIMER_DEBUG_SIGNAL,
+	DEBUG_SIGNAL_TIMER_HEARTBEAT,
+	DEBUG_SIGNAL_TIMER_SIGNAL,
 
-   DEBUG_SIGNAL_EOL
+	DEBUG_SIGNAL_EOL
 };
 
 void DebugSignal_Set(const enum DebugSignal signal);
@@ -40,6 +41,6 @@ void DebugSignal_Clear(const enum DebugSignal signal);
 
 void DebugSignal_SetActive(const enum DebugSignal* signal);
 
-/** @} */	
+/** @} */
 
 #endif /* DEBUGSIGNAL_H_ */

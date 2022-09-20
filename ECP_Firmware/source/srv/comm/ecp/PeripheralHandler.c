@@ -29,6 +29,8 @@ uint8_t buffer[DATA_BUFFER_SIZE];
 typedef struct {
    Packet mRequest;
    uint32_t counter; 
+   uint8_t timer;
+   uint8_t signal;
 } PeripheralHandler;
 
 PeripheralHandler peripheralHandler;
@@ -63,6 +65,8 @@ void PeripheralHandler_ADCSample(PeripheralHandler* self);
 // FUNCTIONS INTENDED TO TEST DEVICE DRIVERS
 void PeripheralHandler_MCP48X2Update(PeripheralHandler* self);
 
+void PeripheralHandler_OnTimer(void* vself);
+
 /******************************************************************************
 *                                                                            *
 *                       Public Function Implementation                       *
@@ -73,6 +77,8 @@ void PeripheralHandler_Initialize(void)
 {
    Packet_Initialize(&peripheralHandler.mRequest);
    peripheralHandler.counter = 0U;
+   peripheralHandler.timer = Timer_Create(0, PeripheralHandler_OnTimer, DEBUG_SIGNAL_TIMER_SIGNAL);
+   Timer_Start(peripheralHandler.timer, TIMER_PERIODIC, 200);
 }
 
 void PeripheralHandler_Run(void)
@@ -158,6 +164,16 @@ void PeripheralHandler_Printf(char* str)
  *                       Private Function Implementation                      *
  *                                                                            *
  ******************************************************************************/
+
+void PeripheralHandler_OnTimer(void* vself)
+{
+	++peripheralHandler.signal;
+
+   Packet_Start(SIGNAL_MSG, 1);
+   Packet_SendUint8(peripheralHandler.signal);
+   Packet_End();
+	
+}
 
  uint8_t PeripheralHandler_IsRequestAvailable(PeripheralHandler* self)
  {

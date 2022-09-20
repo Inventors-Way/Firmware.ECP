@@ -60,6 +60,8 @@
 #define MCP48X2_UPDATE           0x30
 
 // MESSAGES
+#define SIGNAL_MSG               0x80
+
 #define TIMING_MSG               0xFD
 #define TIMING_VIOLATION_MSG     0xFE
 #define PRINTF_MSG               0xFF
